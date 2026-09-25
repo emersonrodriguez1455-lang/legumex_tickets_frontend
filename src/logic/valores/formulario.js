@@ -1,4 +1,4 @@
-// Valores para la plantilla: Formulario de ticket (crear / editar).
+// Valores para la plantilla — formulario de ticket (crear / editar).
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import { ST } from '../../config/constantes.js';
 

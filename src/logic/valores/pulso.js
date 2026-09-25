@@ -1,4 +1,4 @@
-// Valores para la plantilla: Pulso (métricas del área).
+// Valores para la plantilla — pulso (métricas del área).
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 
 export const valoresPulso = {

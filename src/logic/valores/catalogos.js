@@ -1,4 +1,4 @@
-// Valores para la plantilla: Listas de categorías y usuarios.
+// Valores para la plantilla — listas de categorías y usuarios.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 

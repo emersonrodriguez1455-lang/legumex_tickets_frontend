@@ -1,4 +1,4 @@
-// Valores para la plantilla: Página crear / editar de categoría o usuario.
+// Valores para la plantilla — página crear / editar de categoría o usuario.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 

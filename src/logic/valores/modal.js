@@ -1,4 +1,4 @@
-// Valores para la plantilla: Modal de confirmación / edición rápida.
+// Valores para la plantilla — modal de confirmación / edición rápida.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 import * as sync from '../../services/sync.js';

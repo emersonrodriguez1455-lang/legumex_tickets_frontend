@@ -1,4 +1,4 @@
-// Valores para la plantilla: Títulos de página que pisan a los de cada pantalla (chat, 403, 404).
+// Valores para la plantilla — títulos de página que pisan a los de cada pantalla (chat, 403, 404).
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 
 export const valoresTitulos = {

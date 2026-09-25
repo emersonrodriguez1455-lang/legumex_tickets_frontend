@@ -1,4 +1,4 @@
-// Valores para la plantilla: Chat (página, panel flotante y botón).
+// Valores para la plantilla — chat (página, panel flotante y botón).
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import { ST } from '../../config/constantes.js';
 import { MACROS, MACROS_USER } from '../../config/textos.js';

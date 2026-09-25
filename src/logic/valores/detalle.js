@@ -1,4 +1,4 @@
-// Valores para la plantilla: Detalle de un ticket.
+// Valores para la plantilla — detalle de un ticket.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 import { ST, PR } from '../../config/constantes.js';

@@ -1,4 +1,4 @@
-// Valores para la plantilla: Marco de la aplicación: hoja, notificaciones, navegación, rol, 403/404 y encabezado.
+// Valores para la plantilla — marco de la aplicación: hoja, notificaciones, navegación, rol, 403/404 y encabezado.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 import { NAV_INK } from '../../config/constantes.js';

@@ -1,4 +1,4 @@
-// Valores para la plantilla: Capas globales: celebración, momentos, visor, carga, subida, avisos.
+// Valores para la plantilla — capas globales: celebración, momentos, visor, carga, subida, avisos.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import { RING } from '../../config/constantes.js';
 

@@ -1,4 +1,4 @@
-// Valores para la plantilla: Lista de tickets (tarjetas, tabla, kanban, filtros y métricas propias).
+// Valores para la plantilla — lista de tickets (tarjetas, tabla, kanban, filtros y métricas propias).
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import { ST, PR } from '../../config/constantes.js';
 

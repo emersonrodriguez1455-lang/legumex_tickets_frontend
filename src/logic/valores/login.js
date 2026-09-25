@@ -1,4 +1,4 @@
-// Valores para la plantilla: Pantalla de ingreso.
+// Valores para la plantilla — pantalla de ingreso.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 
