@@ -1,5 +1,18 @@
 node_modules
 dist
+dist-ssr
+.env
 .env.local
+.env.*.local
+*.local
 *.log
+*.zip
+vite.config.js.timestamp-*
+
+# Editor / SO
+.vscode/*
+!.vscode/extensions.json
+.idea
+.claude/
 .DS_Store
+Thumbs.db
