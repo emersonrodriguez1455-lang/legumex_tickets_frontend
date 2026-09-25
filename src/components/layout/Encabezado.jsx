@@ -6,7 +6,7 @@ export default function Encabezado({ V }) {
   return (
     <>
       {" "}
-      <header data-no-print="" style={{ "display": "flex", "flexWrap": "wrap", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "24px 28px 20px", "margin": "0 0 4px", "background": "rgba(244,245,241,0.9)", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "borderRadius": "16px" }}>
+      <header data-m="encabezado" data-no-print="" style={{ "display": "flex", "flexWrap": "wrap", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "24px 28px 20px", "margin": "0 0 4px", "background": "rgba(244,245,241,0.9)", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "borderRadius": "16px" }}>
         {" "}
         {V["notList"] ? (<>
           {" "}

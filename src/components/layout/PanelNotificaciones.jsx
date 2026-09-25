@@ -7,9 +7,9 @@ export default function PanelNotificaciones({ V }) {
   return (
     <>
       {" "}
-      <div data-no-print="" onClick={V["onBellClose"]} style={{ "position": "fixed", "inset": "0", "zIndex": "69" }}></div>
+      <div data-m="velo-hoja" data-no-print="" onClick={V["onBellClose"]} style={{ "position": "fixed", "inset": "0", "zIndex": "69" }}></div>
       {" "}
-      <div data-no-print="" role="dialog" aria-label="Notificaciones" style={{ "position": "fixed", "left": "252px", "top": "20px", "zIndex": "70", "width": "380px", "maxWidth": "calc(100vw - 268px)", "maxHeight": "min(640px,calc(100vh - 40px))", "background": "#ffffff", "borderRadius": "16px", "boxShadow": "0 1px 2px rgba(0,0,0,0.06),0 0 0 1px #e5e5e5,0 24px 48px -24px rgba(11,42,30,0.3)", "display": "flex", "flexDirection": "column", "overflow": "hidden", "animation": "dockIn 220ms cubic-bezier(0.22,1,0.36,1) both" }}>
+      <div data-m="notificaciones" data-no-print="" role="dialog" aria-label="Notificaciones" style={{ "position": "fixed", "left": "252px", "top": "20px", "zIndex": "70", "width": "380px", "maxWidth": "calc(100vw - 268px)", "maxHeight": "min(640px,calc(100vh - 40px))", "background": "#ffffff", "borderRadius": "16px", "boxShadow": "0 1px 2px rgba(0,0,0,0.06),0 0 0 1px #e5e5e5,0 24px 48px -24px rgba(11,42,30,0.3)", "display": "flex", "flexDirection": "column", "overflow": "hidden", "animation": "dockIn 220ms cubic-bezier(0.22,1,0.36,1) both" }}>
         {" "}
         <div style={{ "display": "flex", "alignItems": "center", "gap": "8px", "padding": "14px 16px", "borderBottom": "1px solid #e5e5e5" }}>
           {" "}

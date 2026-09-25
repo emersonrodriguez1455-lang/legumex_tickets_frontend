@@ -264,7 +264,7 @@ export default function VistaTabla({ V }) {
         {" "}
         {V["pgTickets"]?.["show"] ? (<>
           {" "}
-          <div style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "10px 16px", "background": "#f5f5f5", "borderTop": "1px solid #e5e5e5" }}>
+          <div data-m="paginador" style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "10px 16px", "background": "#f5f5f5", "borderTop": "1px solid #e5e5e5" }}>
             {" "}
             <span style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
               {T(V["pgTickets"]?.["range"])}

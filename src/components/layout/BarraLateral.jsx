@@ -5,7 +5,7 @@ import { T, S, L } from '../../utils/runtime.js';
 
 export default function BarraLateral({ V }) {
   return (
-    <aside style={{ "position": "relative", "width": "240px", "flexShrink": "0", "background": "transparent", "position": "sticky", "top": "0", "alignSelf": "flex-start", "height": "100vh", "overflowY": "auto", "borderRight": "none", "padding": "24px 12px 20px", "display": "flex", "flexDirection": "column", "gap": "28px" }}>
+    <aside data-m="menu" data-abierto={V["menuMovilAbierto"] ? "" : undefined} onClickCapture={V["onMenuTap"]} style={{ "position": "relative", "width": "240px", "flexShrink": "0", "background": "transparent", "position": "sticky", "top": "0", "alignSelf": "flex-start", "height": "100vh", "overflowY": "auto", "borderRight": "none", "padding": "24px 12px 20px", "display": "flex", "flexDirection": "column", "gap": "28px" }}>
       {" "}
       <button onClick={V["onHome"]} aria-label="Ir al inicio" title="Ir al inicio" style={{ "alignSelf": "flex-start", "background": "transparent", "border": "none", "padding": "4px 8px", "margin": "0", "cursor": "pointer", "display": "flex", "alignItems": "center", "borderRadius": "8px", "transition": "transform var(--duration-fast) var(--ease-standard),opacity var(--duration-fast) var(--ease-standard)" }} className="scp5 scp6">
         {" "}
@@ -13,7 +13,7 @@ export default function BarraLateral({ V }) {
         {" "}
       </button>
       {" "}
-      <button onClick={V["onBell"]} aria-label={V["bellAria"]} aria-expanded={V["notifOpen"]} title="Notificaciones" style={{ "position": "absolute", "top": "24px", "right": "12px", "width": "44px", "height": "44px", "borderRadius": "10px", "border": "none", "background": S(V["bellBg"]), "boxShadow": S(V["bellShadow"]), "cursor": "pointer", "display": "flex", "alignItems": "center", "justifyContent": "center", "transition": "transform var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard)" }} className="scp7 scp8">
+      <button data-m="campana-lateral" onClick={V["onBell"]} aria-label={V["bellAria"]} aria-expanded={V["notifOpen"]} title="Notificaciones" style={{ "position": "absolute", "top": "24px", "right": "12px", "width": "44px", "height": "44px", "borderRadius": "10px", "border": "none", "background": S(V["bellBg"]), "boxShadow": S(V["bellShadow"]), "cursor": "pointer", "display": "flex", "alignItems": "center", "justifyContent": "center", "transition": "transform var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard)" }} className="scp7 scp8">
         {" "}
         {V["bellPolling"] ? (<>
           <span aria-hidden="true" style={{ "position": "relative", "display": "inline-block", "height": "10px", "flexShrink": "0" }}>

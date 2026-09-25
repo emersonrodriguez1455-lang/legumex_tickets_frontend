@@ -184,3 +184,76 @@
 .scp2k:hover{background:#f5f5f5 !important;--ic:1.15 !important;--is:#ea580c !important;--im:translateX(-3px) !important}
 .scp2l:hover{background:rgba(255,255,255,0.14) !important;--ic:1.15 !important;--is:#fcd34d !important;--im:translateX(-3px) !important}
 .scp2m:active{background:rgba(255,255,255,0.22) !important}
+
+/* ──────────── Diseño móvil (≤ 767 px, o teléfono en horizontal) ────────────
+   Un solo código para PC y teléfono: en escritorio nada de esto aplica. Los estilos del
+   prototipo van en línea, por eso aquí se usa !important sobre elementos marcados con
+   data-m (o con los data-* que ya existían). El comportamiento (menú, vista única en
+   tarjetas) lo decide la lógica con s.movil (config/constantes.js → MQ_MOVIL).
+   Tablets (768–1100 px): pendiente, siguen con el diseño de escritorio. */
+@media (max-width:767px), (max-height:500px) and (pointer:coarse){
+  html,body{overflow-x:hidden}
+  /* marco: barra superior + contenido a todo el ancho */
+  [data-shell]{flex-direction:column!important;align-items:stretch!important;height:100vh!important;height:100dvh!important}
+  [data-sheet]{margin:0!important;border-radius:0!important;height:auto!important;flex:1 1 auto!important;min-height:0!important;scrollbar-gutter:auto!important;-webkit-mask-image:none!important;mask-image:none!important}
+  /* la animación de entrada no se queda aplicada: un transform que persiste (aunque sea
+     translate(0,0)) encierra a los position:fixed de adentro (hojas, velos, modales) */
+  [data-m="pantalla"]{padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px))!important;animation-fill-mode:backwards!important}
+  /* barra lateral → menú deslizable */
+  [data-m="menu"]{position:fixed!important;top:0!important;left:0!important;bottom:0!important;height:auto!important;width:min(300px,86vw)!important;z-index:60!important;background:#f4f5f1!important;padding:calc(20px + env(safe-area-inset-top,0px)) 12px calc(20px + env(safe-area-inset-bottom,0px))!important;transform:translateX(-104%);visibility:hidden;transition:transform 280ms cubic-bezier(0.22,1,0.36,1),visibility 0s linear 280ms,box-shadow 280ms;overscroll-behavior:contain}
+  [data-m="menu"][data-abierto]{transform:none;visibility:visible;transition:transform 280ms cubic-bezier(0.22,1,0.36,1),visibility 0s,box-shadow 280ms;box-shadow:0 24px 64px rgba(11,42,30,0.28)}
+  [data-m="campana-lateral"]{display:none!important}
+  [data-m="barra"] button:active{transform:scale(0.92)}
+  /* controles de la lista: sin blur (encerraba los position:fixed) y sin quedar pegados
+     arriba: en un teléfono ocuparían un cuarto de la pantalla */
+  [data-m="controles"]{position:relative!important;z-index:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#ffffff!important;box-shadow:0 1px 2px rgba(0,0,0,0.05),0 0 0 1px #e5e5e5!important;padding:12px!important}
+  /* menús emergentes → hojas que suben desde abajo, a todo el ancho */
+  /* z-index 60: por encima de la barra superior (40), así tocar arriba también cierra */
+  [data-m="velo-hoja"]{z-index:60!important;background:rgba(10,10,10,0.38)!important;animation:overlayIn var(--duration-base) var(--ease-standard)}
+  [data-m="hoja"]{position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;width:auto!important;max-width:none!important;max-height:80dvh!important;overflow-y:auto!important;overscroll-behavior:contain;border-radius:20px 20px 0 0!important;border:none!important;padding:22px 16px calc(18px + env(safe-area-inset-bottom,0px))!important;box-shadow:0 -12px 40px rgba(11,42,30,0.22)!important;animation:hojaSube 280ms cubic-bezier(0.22,1,0.36,1) both!important;z-index:61!important}
+  [data-m="hoja"]::before{content:"";position:absolute;top:8px;left:50%;width:36px;height:4px;margin-left:-18px;border-radius:9999px;background:#d4d4d4}
+  [data-m="hoja"] button{min-height:44px}
+  [data-m="solo-escritorio"]{display:none!important}
+  [data-m="orden"]{border-top:none!important;padding-top:0!important}
+  /* notificaciones: panel bajo la barra superior, a todo el ancho */
+  [data-m="notificaciones"]{left:8px!important;right:8px!important;top:calc(60px + env(safe-area-inset-top,0px))!important;width:auto!important;max-width:none!important;max-height:calc(100dvh - 76px)!important;animation:dropIn var(--duration-base) var(--ease-standard) both!important}
+  /* el botón del chat se esconde mientras hay una hoja, el menú o un panel abierto */
+  body:has([data-m="hoja"],[data-m="menu"][data-abierto],[data-m="notificaciones"],[data-m="chat-flotante"]) [data-m="fab"]{opacity:0!important;pointer-events:none!important}
+  /* tarjetas de tickets: una columna que nunca pide más ancho que la pantalla; el chip
+     de asignación muestra solo el avatar para dejarle lugar al nombre del autor */
+  [data-m="grilla-tarjetas"]{grid-template-columns:minmax(0,1fr)!important}
+  [data-m="chip-asig"]{font-size:0!important;padding:0 4px!important;gap:0!important}
+  /* encabezado de cada pantalla: sin el aire de escritorio */
+  [data-m="encabezado"]{padding:8px 16px 4px!important;margin:0!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;gap:10px!important}
+  [data-m="encabezado"] h1{font-size:26px!important;line-height:1.15!important}
+  /* Pulso: indicadores de a dos */
+  [data-m="kpis"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;row-gap:20px!important;margin:4px 0 16px!important}
+  [data-m="kpis"]>div{padding:16px 12px 0 0!important}
+  [data-m="kpis"]>div>div:first-of-type{font-size:30px!important}
+  /* tablas de catálogos → cada fila es una tarjeta; la cabecera de columnas sobra */
+  [data-m="tabla-cabecera"]{display:none!important}
+  [data-m="fila-cat"]{grid-template-columns:minmax(0,1fr) auto auto!important;row-gap:12px!important;column-gap:12px!important;padding:14px 16px!important}
+  [data-m="fila-cat"]>:first-child{grid-column:1/-1}
+  [data-m="fila-cat"]>:nth-child(2)::before{content:"Tickets ";font-family:Inter,Helvetica,Arial,sans-serif;font-size:13px;color:#737373}
+  [data-m="fila-cat"]>:nth-child(3){justify-self:end!important}
+  [data-m="fila-usuario"]{grid-template-columns:minmax(0,1fr) auto!important;row-gap:12px!important;column-gap:12px!important;padding:14px 16px!important}
+  [data-m="fila-usuario"]>:nth-child(1){grid-column:1;grid-row:1}
+  [data-m="fila-usuario"]>:nth-child(4){grid-column:2;grid-row:1;justify-self:end}
+  [data-m="fila-usuario"]>:nth-child(2){grid-column:1/-1;grid-row:2;justify-self:start}
+  [data-m="fila-usuario"]>:nth-child(3){grid-column:1/-1;grid-row:3}
+  /* paginadores: una sola línea, flechas junto al texto */
+  [data-m="paginador"]{flex-wrap:wrap!important;row-gap:8px!important;padding:10px 12px!important}
+  [data-m="paginador"] span{white-space:nowrap}
+  [data-m="paginador"] button{display:inline-flex!important;flex-direction:row!important;align-items:center!important;gap:4px!important;white-space:nowrap!important;min-height:40px}
+  /* chat flotante: pantalla completa */
+  [data-m="chat-flotante"]{inset:0!important;width:auto!important;max-width:none!important;height:auto!important;max-height:none!important;border-radius:0!important;padding-top:env(safe-area-inset-top,0px)!important;padding-bottom:env(safe-area-inset-bottom,0px)!important;animation:hojaSube 300ms cubic-bezier(0.22,1,0.36,1) both!important}
+}
+/* teléfono en horizontal: hay ancho para dos columnas de tarjetas */
+@media (max-height:500px) and (pointer:coarse) and (min-width:640px){
+  [data-m="grilla-tarjetas"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@keyframes hojaSube{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  [data-m="menu"],[data-m="menu"][data-abierto]{transition:none!important}
+  [data-m="hoja"],[data-m="chat-flotante"],[data-m="notificaciones"],[data-m="velo-hoja"]{animation:none!important}
+}

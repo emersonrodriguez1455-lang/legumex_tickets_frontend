@@ -1,9 +1,18 @@
 // Ayudantes de interfaz: avisos, modales, carga, paginación y formato de texto.
 // Se mezclan en Logica.prototype: "this" es la instancia de Logica.
 import * as api from '../../services/api.js';
-import { RING, BLOB_HUE, PAGE_SIZE } from '../../config/constantes.js';
+import { RING, BLOB_HUE, PAGE_SIZE, MQ_MOVIL } from '../../config/constantes.js';
 
 export const metodosInterfaz = {
+  // Diseño móvil: sigue el ancho de la ventana (girar el teléfono, achicar el navegador).
+  // Al pasar a escritorio se cierra el menú deslizable para que no quede abierto oculto.
+  escucharMovil() {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    this._mqMovil = window.matchMedia(MQ_MOVIL);
+    this._onMq = e => this.setState(e.matches ? { movil: true } : { movil: false, menuMovil: false });
+    this._mqMovil.addEventListener('change', this._onMq);
+  },
+
   ring(id) { return id ? RING[(id - 1) % RING.length] : '#d4d4d4'; },
 
   // ── 2. Guardado optimista: se aplica ya, y si el servidor falla se revierte

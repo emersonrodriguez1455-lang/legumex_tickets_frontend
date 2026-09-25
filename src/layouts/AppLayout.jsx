@@ -3,6 +3,7 @@
 import { S } from '../utils/runtime.js';
 import FondoSierra from '../components/layout/FondoSierra.jsx';
 import BarraLateral from '../components/layout/BarraLateral.jsx';
+import BarraMovil from '../components/layout/BarraMovil.jsx';
 import PanelNotificaciones from '../components/layout/PanelNotificaciones.jsx';
 import Encabezado from '../components/layout/Encabezado.jsx';
 import AvisoError500 from '../components/layout/AvisoError500.jsx';
@@ -22,6 +23,8 @@ export default function AppLayout({ V }) {
     <>
       <FondoSierra V={V} />
       <div data-shell="" style={{ "position": "relative", "zIndex": "1", "display": "flex", "alignItems": "flex-start", "height": "100vh", "overflow": "hidden" }}>
+        {V["esMovil"] ? (<BarraMovil V={V} />) : null}
+        {V["menuMovilAbierto"] ? (<div data-m="velo" aria-hidden="true" onClick={V["onCerrarMenu"]} style={{ "position": "fixed", "inset": "0", "zIndex": "59", "background": "rgba(10,10,10,0.4)", "animation": "overlayIn var(--duration-base) var(--ease-standard)" }}></div>) : null}
         {" "}
         <BarraLateral V={V} />
         {" "}
@@ -31,7 +34,7 @@ export default function AppLayout({ V }) {
           {" "}
           {V["notList"] ? (<Encabezado V={V} />) : null}
           {" "}
-          <div key={V["screenKey"]} style={{ "padding": "20px " + S(V["gridGutter"]) + " " + S(V["padBottom"]) + " 24px", "maxWidth": "1640px", "width": "100%", "animation": S(V["pageAnim"]) + " var(--duration-page) var(--ease-standard) both" }}>
+          <div key={V["screenKey"]} data-m="pantalla" style={{ "padding": "20px " + S(V["gridGutter"]) + " " + S(V["padBottom"]) + " 24px", "maxWidth": "1640px", "width": "100%", "animation": S(V["pageAnim"]) + " var(--duration-page) var(--ease-standard) both" }}>
             {" "}
             {V["show500"] ? (<AvisoError500 V={V} />) : null}
             {" "}

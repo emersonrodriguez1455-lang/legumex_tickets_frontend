@@ -31,7 +31,7 @@ export default function Categorias({ V }) {
         {" "}
         <div style={{ "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "overflow": "hidden" }}>
           {" "}
-          <div style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 110px 120px 96px", "gap": "16px", "alignItems": "center", "padding": "10px 16px", "background": "#f5f5f5", "borderBottom": "1px solid #e5e5e5", "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
+          <div data-m="tabla-cabecera" style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 110px 120px 96px", "gap": "16px", "alignItems": "center", "padding": "10px 16px", "background": "#f5f5f5", "borderBottom": "1px solid #e5e5e5", "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
             {" "}
             <span>
               {"CATEGORÍA"}
@@ -51,7 +51,7 @@ export default function Categorias({ V }) {
             {L(V["ghostRows"]).map((_g_51, $index) => (
               <React.Fragment key={$index}>
                 {" "}
-                <div style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 110px 120px 96px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
+                <div data-m="fila-cat" style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 110px 120px 96px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
                   {" "}
                   <div style={{ "display": "flex", "flexDirection": "column", "gap": "6px", "minWidth": "0" }}>
                     {" "}
@@ -77,7 +77,7 @@ export default function Categorias({ V }) {
           {L(V["catRows"]).map((_c_52, $index) => (
             <React.Fragment key={$index}>
               {" "}
-              <div style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 110px 120px 96px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
+              <div data-m="fila-cat" style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 110px 120px 96px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
                 {" "}
                 <div style={{ "minWidth": "0" }}>
                   {" "}
@@ -116,7 +116,7 @@ export default function Categorias({ V }) {
           {" "}
           {V["pgCats"]?.["show"] ? (<>
             {" "}
-            <div style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "10px 16px", "background": "#f5f5f5", "borderTop": "1px solid #e5e5e5" }}>
+            <div data-m="paginador" style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "10px 16px", "background": "#f5f5f5", "borderTop": "1px solid #e5e5e5" }}>
               {" "}
               <span style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
                 {T(V["pgCats"]?.["range"])}

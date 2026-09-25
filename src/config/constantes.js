@@ -57,3 +57,9 @@ export const MOSTRAR_SIN_ABRIR = true;
 export const PAGE_SIZE = 20;
 
 export const PCODE = { high: 'P1', medium: 'P2', low: 'P3' };
+
+// Diseño responsivo: teléfonos (hasta 767 px de ancho, o pantalla táctil de poca altura =
+// teléfono en horizontal) usan el diseño móvil: barra superior, menú deslizable y una sola
+// vista en tarjetas. Debe coincidir con la media query de index.css.
+// Tablets todavía usan el diseño de escritorio: pendiente, ver CONTEXTO.
+export const MQ_MOVIL = '(max-width: 767px), (max-height: 500px) and (pointer: coarse)';

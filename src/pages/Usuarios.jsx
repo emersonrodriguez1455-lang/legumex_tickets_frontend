@@ -31,7 +31,7 @@ export default function Usuarios({ V }) {
         {" "}
         <div style={{ "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "overflow": "hidden" }}>
           {" "}
-          <div style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 132px minmax(140px,180px) 150px", "gap": "16px", "alignItems": "center", "padding": "10px 16px", "background": "#f5f5f5", "borderBottom": "1px solid #e5e5e5", "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
+          <div data-m="tabla-cabecera" style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 132px minmax(140px,180px) 150px", "gap": "16px", "alignItems": "center", "padding": "10px 16px", "background": "#f5f5f5", "borderBottom": "1px solid #e5e5e5", "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
             {" "}
             <span>
               {"USUARIO"}
@@ -55,7 +55,7 @@ export default function Usuarios({ V }) {
               {L(V["ghostRows"]).map((_g_53, $index) => (
                 <React.Fragment key={$index}>
                   {" "}
-                  <div style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 132px minmax(140px,180px) 150px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
+                  <div data-m="fila-usuario" style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 132px minmax(140px,180px) 150px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
                     {" "}
                     <div style={{ "display": "flex", "alignItems": "center", "gap": "12px", "minWidth": "0" }}>
                       {" "}
@@ -93,7 +93,7 @@ export default function Usuarios({ V }) {
             {L(V["userRows"]).map((_u_54, $index) => (
               <React.Fragment key={$index}>
                 {" "}
-                <div style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 132px minmax(140px,180px) 150px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
+                <div data-m="fila-usuario" style={{ "display": "grid", "gridTemplateColumns": "minmax(0,2fr) 132px minmax(140px,180px) 150px", "gap": "16px", "alignItems": "center", "padding": "12px 16px", "borderBottom": "1px solid #e5e5e5" }}>
                   {" "}
                   <div style={{ "display": "flex", "alignItems": "center", "gap": "12px", "minWidth": "0" }}>
                     {" "}
@@ -189,7 +189,7 @@ export default function Usuarios({ V }) {
           {" "}
           {V["pgUsers"]?.["show"] ? (<>
             {" "}
-            <div style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "10px 16px", "background": "#f5f5f5", "borderTop": "1px solid #e5e5e5" }}>
+            <div data-m="paginador" style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "padding": "10px 16px", "background": "#f5f5f5", "borderTop": "1px solid #e5e5e5" }}>
               {" "}
               <span style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
                 {T(V["pgUsers"]?.["range"])}

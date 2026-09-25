@@ -5,7 +5,7 @@ import { T, S, L } from '../../utils/runtime.js';
 
 export default function BarraControles({ V }) {
   return (
-    <div style={{ "display": "flex", "flexDirection": "column", "alignItems": "stretch", "gap": "12px", "padding": "14px 0", "borderBottom": "1px solid #e5e5e5", "marginBottom": "12px", "position": "sticky", "top": "0", "zIndex": "24", "background": "rgba(244,245,241,0.95)", "boxShadow": "0 10px 24px -14px rgba(11,42,30,calc(0.35 * var(--fadeOn,0)))", "transition": "box-shadow 240ms ease", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "paddingLeft": "12px", "paddingRight": "12px" }} className="scpn">
+    <div data-m="controles" style={{ "display": "flex", "flexDirection": "column", "alignItems": "stretch", "gap": "12px", "padding": "14px 0", "borderBottom": "1px solid #e5e5e5", "marginBottom": "12px", "position": "sticky", "top": "0", "zIndex": "24", "background": "rgba(244,245,241,0.95)", "boxShadow": "0 10px 24px -14px rgba(11,42,30,calc(0.35 * var(--fadeOn,0)))", "transition": "box-shadow 240ms ease", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "paddingLeft": "12px", "paddingRight": "12px" }} className="scpn">
       {" "}
       <div style={{ "display": "flex", "alignItems": "center", "flexWrap": "wrap", "columnGap": "12px", "rowGap": "12px", "minHeight": "40px", "minWidth": "0" }}>
         {" "}
@@ -76,9 +76,9 @@ export default function BarraControles({ V }) {
                 {" "}
                 {V["periodOpen"] ? (<>
                   {" "}
-                  <div onClick={V["onDismissPop"]} style={{ "position": "fixed", "inset": "0", "zIndex": "25" }}></div>
+                  <div data-m="velo-hoja" onClick={V["onDismissPop"]} style={{ "position": "fixed", "inset": "0", "zIndex": "25" }}></div>
                   {" "}
-                  <div role="dialog" aria-label="Período" style={{ "position": "absolute", "top": "calc(100% + 6px)", "zIndex": "30", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both", "left": "0", "width": "220px", "padding": "6px", "display": "flex", "flexDirection": "column", "gap": "2px" }}>
+                  <div data-m="hoja" role="dialog" aria-label="Período" style={{ "position": "absolute", "top": "calc(100% + 6px)", "zIndex": "30", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both", "left": "0", "width": "220px", "padding": "6px", "display": "flex", "flexDirection": "column", "gap": "2px" }}>
                     {" "}
                     {L(V["periodOpts"]).map((_p_8, $index) => (
                       <React.Fragment key={$index}>
@@ -127,9 +127,9 @@ export default function BarraControles({ V }) {
                 {" "}
                 {V["filterOpen"] ? (<>
                   {" "}
-                  <div onClick={V["onDismissFilter"]} style={{ "position": "fixed", "inset": "0", "zIndex": "25" }}></div>
+                  <div data-m="velo-hoja" onClick={V["onDismissFilter"]} style={{ "position": "fixed", "inset": "0", "zIndex": "25" }}></div>
                   {" "}
-                  <div role="dialog" aria-label="Filtros" style={{ "position": "absolute", "top": "calc(100% + 6px)", "left": "0", "zIndex": "30", "width": "288px", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "padding": "16px", "display": "flex", "flexDirection": "column", "gap": "16px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both" }}>
+                  <div data-m="hoja" role="dialog" aria-label="Filtros" style={{ "position": "absolute", "top": "calc(100% + 6px)", "left": "0", "zIndex": "30", "width": "288px", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "padding": "16px", "display": "flex", "flexDirection": "column", "gap": "16px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both" }}>
                     {" "}
                     <div style={{ "display": "flex", "flexDirection": "column", "gap": "2px" }}>
                       {" "}
@@ -309,11 +309,11 @@ export default function BarraControles({ V }) {
               {" "}
               {V["viewOpen"] ? (<>
                 {" "}
-                <div onClick={V["onDismissPop"]} style={{ "position": "fixed", "inset": "0", "zIndex": "25" }}></div>
+                <div data-m="velo-hoja" onClick={V["onDismissPop"]} style={{ "position": "fixed", "inset": "0", "zIndex": "25" }}></div>
                 {" "}
-                <div role="dialog" aria-label="Vista y orden" style={{ "position": "absolute", "top": "calc(100% + 6px)", "zIndex": "30", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both", "right": "0", "width": "260px", "padding": "14px", "display": "flex", "flexDirection": "column", "gap": "14px" }}>
+                <div data-m="hoja" role="dialog" aria-label="Vista y orden" style={{ "position": "absolute", "top": "calc(100% + 6px)", "zIndex": "30", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both", "right": "0", "width": "260px", "padding": "14px", "display": "flex", "flexDirection": "column", "gap": "14px" }}>
                   {" "}
-                  <div>
+                  <div data-m="solo-escritorio">
                     {" "}
                     <div style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em", "marginBottom": "8px" }}>
                       {"VISTA"}
@@ -353,7 +353,7 @@ export default function BarraControles({ V }) {
                     {" "}
                   </div>
                   {" "}
-                  <div style={{ "borderTop": "1px solid #e5e5e5", "paddingTop": "14px" }}>
+                  <div data-m="orden" style={{ "borderTop": "1px solid #e5e5e5", "paddingTop": "14px" }}>
                     {" "}
                     <div style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em", "marginBottom": "8px" }}>
                       {"ORDENAR POR"}

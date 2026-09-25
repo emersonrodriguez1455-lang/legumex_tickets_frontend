@@ -59,6 +59,15 @@ export const valoresApp = {
     v.navPillY = (activeIdx < 0 ? 0 : activeIdx * 48) + 'px';
     v.booting = s.booting;
     v.bootAnim = s.bootFading ? 'bootOut var(--duration-page) var(--ease-standard) both' : 'none';
+    // Móvil: la barra lateral es un menú deslizable. Cualquier botón o enlace de adentro
+    // navega o filtra, así que al tocarlo el menú se cierra (como en Gmail).
+    v.esMovil = !!s.movil;
+    v.menuMovilAbierto = !!(s.movil && s.menuMovil);
+    v.onAbrirMenu = () => this.setState({ menuMovil: true, notifOpen: false });
+    v.onCerrarMenu = () => this.setState({ menuMovil: false });
+    v.onMenuTap = this._onMenuTap || (this._onMenuTap = e => {
+      if (this.state.menuMovil && e.target.closest && e.target.closest('button, a')) this.setState({ menuMovil: false });
+    });
     v.onHome = () => { this.setState({ screen: 'tickets', detailId: null, dir: 'down', chatOpen: false }); this.load(500); };
     v.navItems = navDefs.map(n => ({
       label: n.label, count: n.count,

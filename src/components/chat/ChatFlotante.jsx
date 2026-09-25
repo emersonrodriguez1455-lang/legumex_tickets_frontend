@@ -6,7 +6,7 @@ import { T, S, L } from '../../utils/runtime.js';
 export default function ChatFlotante({ V }) {
   return (
     <>
-      <div data-no-print="" role="dialog" aria-label="Conversaciones de tickets" style={{ "position": "fixed", "right": "24px", "bottom": "24px", "zIndex": "60", "width": "390px", "maxWidth": "calc(100vw - 32px)", "height": "600px", "maxHeight": "calc(100vh - 48px)", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "16px", "boxShadow": "rgba(0,0,0,0.18) 0px 20px 40px -12px", "display": "flex", "flexDirection": "column", "overflow": "hidden", "animation": "dockIn var(--duration-base) var(--ease-standard) both" }}>
+      <div data-m="chat-flotante" data-no-print="" role="dialog" aria-label="Conversaciones de tickets" style={{ "position": "fixed", "right": "24px", "bottom": "24px", "zIndex": "60", "width": "390px", "maxWidth": "calc(100vw - 32px)", "height": "600px", "maxHeight": "calc(100vh - 48px)", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "16px", "boxShadow": "rgba(0,0,0,0.18) 0px 20px 40px -12px", "display": "flex", "flexDirection": "column", "overflow": "hidden", "animation": "dockIn var(--duration-base) var(--ease-standard) both" }}>
         {" "}
         <div style={{ "display": "flex", "alignItems": "center", "gap": "10px", "padding": "12px 14px", "borderBottom": "1px solid #e5e5e5", "flexShrink": "0" }}>
           {" "}

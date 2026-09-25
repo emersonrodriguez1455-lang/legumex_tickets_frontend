@@ -38,6 +38,9 @@ y los comentarios en español; mantener ese idioma.
   y lanza `Error` con `.status` y `.body`.
 - `config/constantes.js` (estados, prioridades, SLA, colores, límites) y
   `config/textos.js` (guías del formulario y respuestas rápidas).
+- Responsivo: un solo código. Teléfono = `MQ_MOVIL` (config) + media query al final de
+  `index.css` sobre elementos `data-m`; comportamiento con `s.movil` / `V.esMovil`.
+  Tablets: pendiente. Detalle en CONTEXTO → "Diseño responsivo".
 - `src/mocks/`: **solo pruebas** (modo demo, API simulada, script de datos). Se borra en
   producción sin tocar código (`main.jsx` los busca con `import.meta.glob`).
 

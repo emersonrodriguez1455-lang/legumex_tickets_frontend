@@ -195,8 +195,11 @@ export const valoresLista = {
       : activos + (activos === 1 ? ' ticket activo en seguimiento' : ' tickets activos en seguimiento');
     // B1 · el solicitante no recibe la cabina de admin: una sola vista, un solo orden.
     v.vistaAdmin = isAdmin;
-    v.isCards = isAdmin ? s.view === 'cards' : true;
-    v.isTable = isAdmin && s.view === 'table'; v.isKanban = isAdmin && s.view === 'kanban';
+    // En móvil hay una sola vista (tarjetas): tabla y kanban no entran en un teléfono.
+    // La preferencia de escritorio (s.view) no se toca y vuelve al agrandar la ventana.
+    const vistaElegible = isAdmin && !s.movil;
+    v.isCards = vistaElegible ? s.view === 'cards' : true;
+    v.isTable = vistaElegible && s.view === 'table'; v.isKanban = vistaElegible && s.view === 'kanban';
     const cb = this.seg(v.isCards), tb = this.seg(v.isTable), kb = this.seg(v.isKanban);
     v.cardsBg = cb.bg; v.cardsBorder = cb.border;
     v.tableBg = tb.bg; v.tableBorder = tb.border; v.kanbanBg = kb.bg; v.kanbanBorder = kb.border;

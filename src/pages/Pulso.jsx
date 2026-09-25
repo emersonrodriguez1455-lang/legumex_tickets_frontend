@@ -21,7 +21,7 @@ export default function Pulso({ V }) {
         {" "}
         {V["vistaAdmin"] ? (<>
           {" "}
-          <div style={{ "position": "relative", "display": "grid", "gridTemplateColumns": "repeat(auto-fit,minmax(170px,1fr))", "columnGap": "0", "rowGap": "28px", "margin": "8px 0 20px", "padding": "24px 20px 20px", "background": "rgba(244,245,241,0.9)", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "borderRadius": "16px" }}>
+          <div data-m="kpis" style={{ "position": "relative", "display": "grid", "gridTemplateColumns": "repeat(auto-fit,minmax(170px,1fr))", "columnGap": "0", "rowGap": "28px", "margin": "8px 0 20px", "padding": "24px 20px 20px", "background": "rgba(244,245,241,0.9)", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "borderRadius": "16px" }}>
             {" "}
             <div style={{ "position": "relative", "padding": "22px 24px 0 0", "borderTop": "1px solid #d4d6cf", "minWidth": "0", "animation": "dropIn var(--duration-page) var(--ease-standard) 0ms both" }}>
               {" "}

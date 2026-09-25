@@ -206,7 +206,45 @@ En modo demostración siguen visibles, como en el prototipo.
   animada en el fondo y logo de Legumex (`public/marca/`).
 - Colores de estado y prioridad en `config/constantes.js` (`ST`, `PR`); colores de avatar
   (`RING`) y de cada sección del menú (`NAV_INK`) también ahí.
-- Tickets en tres vistas: tarjetas, tabla y kanban (arrastrar entre columnas).
+- Tickets en tres vistas en escritorio: tarjetas, tabla y kanban (arrastrar entre
+  columnas). En el teléfono, una sola: tarjetas (ver abajo).
+
+## Diseño responsivo (teléfonos)
+
+Un solo código para PC y teléfono: **no hay una versión móvil aparte**. En escritorio nada
+cambia (se verificó comparando el DOM contra la versión anterior en recorridos
+automáticos); en el teléfono la misma interfaz se reacomoda.
+
+- **Cuándo aplica**: hasta 767 px de ancho, o pantalla táctil de hasta 500 px de alto
+  (teléfono en horizontal). Una sola definición en dos lugares que deben coincidir:
+  `MQ_MOVIL` en `config/constantes.js` (lógica) y la media query del final de
+  `src/index.css` (estilos).
+- **Cómo está hecho**: los estilos del prototipo van en línea, así que el CSS móvil usa
+  `!important` sobre elementos marcados con `data-m="..."` (por ejemplo `data-m="menu"`,
+  `data-m="hoja"`). Lo que es comportamiento (menú abierto, vista única) lo decide la
+  lógica con `s.movil`, que sigue al ancho de la ventana (`metodos/interfaz.js →
+  escucharMovil`). Lo que solo existe en el teléfono se pinta con `V.esMovil`
+  (`components/layout/BarraMovil.jsx`, los fondos que cierran las hojas), así el HTML de
+  escritorio no cambia.
+- **Patrones**:
+  - Barra superior fija (menú, logo, campana) y la barra lateral de escritorio como menú
+    deslizable desde la izquierda; se cierra al elegir algo, al tocar afuera o con Escape.
+  - Una sola vista de tickets: tarjetas a una columna (dos con el teléfono en
+    horizontal). "Vista y orden" solo ofrece el orden.
+  - Menús emergentes (Filtro, Período, Orden, Asignar) → hojas que suben desde abajo, con
+    fondo oscuro que las cierra.
+  - Notificaciones y chat flotante a pantalla completa (o casi); el botón del chat se
+    esconde mientras hay una hoja o panel abierto.
+  - Tablas de Categorías y Usuarios → cada fila es una tarjeta.
+  - Pulso con los indicadores de a dos.
+- **Cuidado con `position: fixed`**: un `transform`, `filter` o `backdrop-filter` en un
+  ancestro lo encierra (deja de cubrir la pantalla). Por eso en el teléfono la animación
+  de entrada de cada pantalla no queda aplicada al terminar y la barra de controles de la
+  lista no tiene blur. Cualquier capa nueva que deba cubrir la pantalla, revisar esto.
+- **Tablets: pendiente.** Hoy usan el diseño de escritorio (el ancho es de escritorio).
+  Antes pasó que en teléfono se veía bien y en tablet como escritorio: tratarlas en una
+  tanda aparte, considerando también la firma en tablet (es más complicada), que se verá
+  junto con el trabajo de las actas.
 
 ## Observaciones del prototipo (no se tocaron; decidir antes de cambiar)
 
@@ -216,6 +254,14 @@ En modo demostración siguen visibles, como en el prototipo.
   gana la última) y un `multiple="true"` como texto en el input de adjuntos (React avisa
   en consola). Vite los muestra como advertencias al compilar; no rompen nada.
 - Variables sin uso heredadas (`roleReset`, `tieneResp`, `act` en `logic/valores`).
+- **Refresco que pisa cambios recientes** (`services/sync.js → refresh`): si la persona
+  hace algo (comentar, marcar bloqueante, etc.) mientras un refresco periódico está en
+  vuelo, la respuesta llega con datos anteriores y el cambio desaparece de la pantalla
+  hasta el siguiente refresco (45 s). El cambio sí se guarda en el servidor. Pasa igual en
+  PC y en teléfono; propuesta: descartar el resultado del refresco si hubo cambios locales
+  mientras viajaba.
+- En escritorio, el menú "Vista y orden" no se cierra tocando la lista, solo tocando el
+  encabezado (su fondo queda encerrado por el blur de la barra). En el teléfono no pasa.
 
 ## Reglas de código del proyecto
 

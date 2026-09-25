@@ -11,7 +11,7 @@ export default function VistaTarjetas({ V }) {
         {" "}
         {V["loading"] ? (<>
           {" "}
-          <div style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(316px,1fr))", "gap": "12px" }}>
+          <div data-m="grilla-tarjetas" style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(316px,1fr))", "gap": "12px" }}>
             {" "}
             {L(V["ghostCards6"]).map((_g_14, $index) => (
               <React.Fragment key={$index}>
@@ -59,7 +59,7 @@ export default function VistaTarjetas({ V }) {
         {" "}
         {V["loaded"] ? (<>
           {" "}
-          <div style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(316px,1fr))", "gap": "12px" }}>
+          <div data-m="grilla-tarjetas" style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(316px,1fr))", "gap": "12px" }}>
             {" "}
             {L(V["rows"]).map((_t_15, $index) => (
               <React.Fragment key={$index}>
@@ -125,7 +125,7 @@ export default function VistaTarjetas({ V }) {
                             </span>
                           </span>
                         </>) : null}
-                        <button onClick={_t_15?.["qaToggle"]} aria-label={_t_15?.["asigTitle"]} style={{ "height": "30px", "padding": "0 10px 0 4px", "borderRadius": "9999px", "border": "1px " + S(_t_15?.["asigBorder"]), "background": S(_t_15?.["qaBg"]), "color": "#171717", "fontSize": "12px", "fontWeight": "500", "cursor": "pointer", "display": "inline-flex", "alignItems": "center", "gap": "6px", "whiteSpace": "nowrap", "transition": "transform var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard)" }} className="scp18 scp19">
+                        <button data-m="chip-asig" onClick={_t_15?.["qaToggle"]} aria-label={_t_15?.["asigTitle"]} style={{ "height": "30px", "padding": "0 10px 0 4px", "borderRadius": "9999px", "border": "1px " + S(_t_15?.["asigBorder"]), "background": S(_t_15?.["qaBg"]), "color": "#171717", "fontSize": "12px", "fontWeight": "500", "cursor": "pointer", "display": "inline-flex", "alignItems": "center", "gap": "6px", "whiteSpace": "nowrap", "transition": "transform var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard)" }} className="scp18 scp19">
                           {" "}
                           {_t_15?.["asigHas"] ? (<>
                             <span style={{ "width": "22px", "height": "22px", "borderRadius": "9999px", "background": "#e5e5e5", "display": "flex", "alignItems": "center", "justifyContent": "center", "fontSize": "10px", "fontWeight": "600", "color": "#171717", "flexShrink": "0", "transform": "var(--im,translateY(0)) scale(var(--ic,1))", "transition": "transform var(--duration-base) var(--ease-standard)" }}>
@@ -150,7 +150,8 @@ export default function VistaTarjetas({ V }) {
                         {" "}
                         {_t_15?.["qaOpen"] ? (<>
                           {" "}
-                          <div role="menu" aria-label={"Asignar " + S(_t_15?.["code"])} style={{ "position": "absolute", "top": "calc(100% + 6px)", "right": "0", "zIndex": "40", "width": "300px", "maxWidth": "calc(100vw - 32px)", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "padding": "6px", "display": "flex", "flexDirection": "column", "gap": "2px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both", "cursor": "default" }}>
+                          {V["esMovil"] ? (<div data-m="velo-hoja" onClick={_t_15?.["qaToggle"]} style={{ "position": "fixed", "inset": "0", "zIndex": "60" }}></div>) : null}
+                          <div data-m="hoja" role="menu" aria-label={"Asignar " + S(_t_15?.["code"])} style={{ "position": "absolute", "top": "calc(100% + 6px)", "right": "0", "zIndex": "40", "width": "300px", "maxWidth": "calc(100vw - 32px)", "background": "#ffffff", "border": "1px solid #e5e5e5", "borderRadius": "12px", "padding": "6px", "display": "flex", "flexDirection": "column", "gap": "2px", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px", "animation": "dropIn var(--duration-base) var(--ease-standard) both", "cursor": "default" }}>
                             {" "}
                             <div style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em", "padding": "6px 8px 4px" }}>
                               {"ASIGNAR "}{T(_t_15?.["code"])}{" A"}
@@ -434,7 +435,7 @@ export default function VistaTarjetas({ V }) {
         {" "}
         {V["pgTickets"]?.["show"] ? (<>
           {" "}
-          <div style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "background": "#f5f5f5", "borderRadius": "12px", "padding": "10px 16px", "marginTop": "12px" }}>
+          <div data-m="paginador" style={{ "display": "flex", "alignItems": "center", "justifyContent": "space-between", "gap": "16px", "background": "#f5f5f5", "borderRadius": "12px", "padding": "10px 16px", "marginTop": "12px" }}>
             {" "}
             <span style={{ "fontFamily": "'JetBrains Mono',monospace", "fontSize": "11px", "color": "#525252", "letterSpacing": "0.04em" }}>
               {T(V["pgTickets"]?.["range"])}

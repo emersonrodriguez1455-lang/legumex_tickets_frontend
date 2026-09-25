@@ -2,6 +2,7 @@
 // Los métodos viven en ./metodos y los valores para la plantilla en ./valores; aquí queda
 // el estado inicial, el ciclo de vida y renderVals(), que arma "V" para la interfaz.
 import { LogicaBase } from './LogicaBase.js';
+import { MQ_MOVIL } from '../config/constantes.js';
 import * as api from '../services/api.js';
 import * as sync from '../services/sync.js';
 import { metodosTiempos } from './metodos/tiempos.js';
@@ -49,6 +50,9 @@ export class Logica extends LogicaBase {
     heavyMsg: '', moment: null, qa: null, staged: [], lightbox: null, viewOpen: false, periodOpen: false, period: '30',
     uploads: [], saving: '', err500Line: 'HTTP 500 · GET /api/tickets', draftFound: false, sessionOk: true, sessionMsg: '',
     dragId: null, dragOver: null, landed: null, asigOpen: false,
+    // Diseño móvil: se calcula al arrancar para no pintar primero el de escritorio
+    movil: typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia(MQ_MOVIL).matches,
+    menuMovil: false,
     // Sin datos de arranque: llegan de la API. En modo demostración los manda main.jsx
     // desde src/mocks/datosDemo.js (prop datosDemo).
     users: (this.props.datosDemo || {}).users || [],
@@ -71,6 +75,7 @@ export class Logica extends LogicaBase {
       this._fabT = setTimeout(() => this.setState({ fabSmall: false }), 400);
     };
     window.addEventListener('scroll', this._onScroll, true);
+    this.escucharMovil();
     this.load(650);
     this._vis = () => {
       if (document.visibilityState !== 'visible' || !this.state.authed) return;
@@ -99,6 +104,7 @@ export class Logica extends LogicaBase {
         else if (e.key === 'ArrowLeft') this.lbStep(-1);
         return;
       }
+      if (e.key === 'Escape' && s.menuMovil) { this.setState({ menuMovil: false }); return; }
       if (e.key === 'Escape' && s.qa) { this.setState({ qa: null }); return; }
       if (e.key === 'Escape' && (s.viewOpen || s.periodOpen)) { this.setState({ viewOpen: false, periodOpen: false }); return; }
       if (e.key === 'Escape') {
@@ -139,6 +145,7 @@ export class Logica extends LogicaBase {
     if (this._vis) document.removeEventListener('visibilitychange', this._vis);
     if (this._hash) window.removeEventListener('hashchange', this._hash);
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll, true);
+    if (this._mqMovil) this._mqMovil.removeEventListener('change', this._onMq);
     clearTimeout(this._boot); clearTimeout(this._bootOut);
     cancelAnimationFrame(this._fillRaf);
     clearTimeout(this._fabT);
