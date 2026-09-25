@@ -118,20 +118,8 @@ export class Logica extends LogicaBase {
         if (s.screen === 'detail' || s.screen === 'create' || s.screen === 'edit') { this.setState({ screen: 'tickets', detailId: null, editId: null, dir: 'back' }); return; }
         return;
       }
-      if (typing || !s.authed || s.modal || s.celebrate || s.moment || s.heavyMsg) return;
-      if (e.key === '/') { e.preventDefault(); this.setState({ searchOpen: true }); setTimeout(() => { const el = document.getElementById('tic-search'); if (el) el.focus(); }, 30); return; }
-      if (e.key === 'c' || e.key === 'C') { e.preventDefault(); this.newForm(); return; }
-      if (e.key === 'v' || e.key === 'V') {
-        const order = ['cards', 'table', 'kanban'];
-        this.setState(st => ({ view: order[(order.indexOf(st.view) + 1) % 3], swap: st.swap + 1 }));
-        return;
-      }
-      const ids = this._rowIds || [];
-      if (s.screen === 'tickets' && ids.length) {
-        if (e.key === 'j' || e.key === 'ArrowDown') { e.preventDefault(); this.setState(st => ({ cursor: Math.min(ids.length - 1, st.cursor + 1) })); return; }
-        if (e.key === 'k' || e.key === 'ArrowUp') { e.preventDefault(); this.setState(st => ({ cursor: Math.max(0, (st.cursor < 0 ? 1 : st.cursor) - 1) })); return; }
-        if (e.key === 'Enter' && s.cursor >= 0 && ids[s.cursor]) { e.preventDefault(); this.openTicket(ids[s.cursor]); return; }
-      }
+      // Sin atajos de una tecla (C, V, /, J, K, flechas, Enter): chocaban con Ctrl+C / Ctrl+V
+      // y con el desplazamiento normal. Solo quedan Escape y las teclas del visor de imágenes.
     };
     document.addEventListener('keydown', this._keys);
     this.applyUrl();
