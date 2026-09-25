@@ -10,7 +10,7 @@ export const metodosUrl = {
     if (s.view !== 'cards') p.push('vista=' + s.view);
     if (s.q.trim()) p.push('q=' + encodeURIComponent(s.q.trim()));
     if (s.screen === 'detail' && s.detailId) p.push('ticket=' + s.detailId);
-    const scr = s.screen === 'pulso' ? 'pulso' : s.screen === 'cats' ? 'categorias' : s.screen === 'users' ? 'usuarios' : 'tickets';
+    const scr = s.screen === 'pulso' ? 'metricas' : s.screen === 'cats' ? 'categorias' : s.screen === 'users' ? 'usuarios' : 'tickets';
     return '#/' + scr + (p.length ? '?' + p.join('&') : '');
   },
 
@@ -26,7 +26,7 @@ export const metodosUrl = {
     const parts = raw.split('?'), scr = parts[0] || 'tickets', qs = parts[1] || '';
     const p = {};
     qs.split('&').filter(Boolean).forEach(kv => { const i = kv.indexOf('='); p[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
-    const screen = p.ticket ? 'detail' : scr === 'pulso' ? 'pulso' : scr === 'categorias' ? 'cats' : scr === 'usuarios' ? 'users' : 'tickets';
+    const screen = p.ticket ? 'detail' : (scr === 'metricas' || scr === 'pulso') ? 'pulso' : scr === 'categorias' ? 'cats' : scr === 'usuarios' ? 'users' : 'tickets';
     const view = p.vista === 'table' || p.vista === 'kanban' ? p.vista : 'cards';
     this.setState({
       screen, detailId: p.ticket ? Number(p.ticket) : null,

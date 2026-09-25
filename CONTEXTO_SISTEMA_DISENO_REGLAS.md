@@ -9,10 +9,10 @@
 Mesa de ayuda del Departamento de TIC de Agroindustria Legumex, S.A. Las personas de cada
 área abren tickets (hardware, software, redes, accesos...), el equipo de TIC los toma,
 conversa con el solicitante, adjunta imágenes y los cierra. Incluye chat por ticket,
-notificaciones, métricas del área ("Pulso"), y catálogos de categorías y usuarios.
+notificaciones, métricas del área (pantalla "Métricas"; en el código se llama `pulso`), y catálogos de categorías y usuarios.
 
 Roles: **admin** (equipo de TIC: ve todo, asigna, cambia estado y prioridad, gestiona
-catálogos y Pulso) y **usuario** (solicitante: ve solo sus tickets, los crea, comenta y
+catálogos y Métricas) y **usuario** (solicitante: ve solo sus tickets, los crea, comenta y
 avisa si ya se resolvió o si lo está frenando). Cada persona ve el sistema con su propio
 rol; no hay "Ver como".
 
@@ -242,7 +242,7 @@ automáticos); en el teléfono la misma interfaz se reacomoda.
   - Notificaciones y chat flotante a pantalla completa (o casi); el botón del chat se
     esconde mientras hay una hoja o panel abierto.
   - Tablas de Categorías y Usuarios → cada fila es una tarjeta.
-  - Pulso con los indicadores de a dos.
+  - Métricas con los indicadores de a dos.
 - **Cuidado con `position: fixed`**: un `transform`, `filter` o `backdrop-filter` en un
   ancestro lo encierra (deja de cubrir la pantalla). Por eso en el teléfono la animación
   de entrada de cada pantalla no queda aplicada al terminar y la barra de controles de la

@@ -47,7 +47,7 @@ export const valoresApp = {
     const mine = this.visible();
     const navDefs = [{ key: 'tickets', label: 'Tickets', count: String(mine.length) }];
     if (isAdmin) {
-      navDefs.push({ key: 'pulso', label: 'Pulso', count: String(mine.filter(t => t.status !== 'closed' && this.sla(t).late).length) });
+      navDefs.push({ key: 'pulso', label: 'Métricas', count: String(mine.filter(t => t.status !== 'closed' && this.sla(t).late).length) });
       navDefs.push({ key: 'cats', label: 'Categorías', count: String(s.cats.length) });
       navDefs.push({ key: 'users', label: 'Usuarios', count: String(s.users.length) });
     }
@@ -135,7 +135,7 @@ export const valoresApp = {
       : s.screen === 'detail' && det ? 'TICKETS / TIC-' + det.id : s.screen === 'create' ? 'TICKETS / NUEVO'
       : s.screen === 'edit' && s.editId ? 'TICKETS / TIC-' + s.editId + ' / EDITAR' : 'LEGUMEX';
     v.pageTitle = s.screen === 'entity' && s.entity ? (s.entity.type === 'cat' ? (s.entity.id ? 'Editar categoría' : 'Nueva categoría') : (s.entity.id ? 'Editar usuario' : 'Nuevo usuario'))
-      : s.screen === 'create' ? 'Crear ticket' : s.screen === 'edit' ? 'Editar ticket' : s.screen === 'cats' ? 'Categorías' : s.screen === 'users' ? 'Usuarios' : s.screen === 'pulso' ? 'Pulso del área'
+      : s.screen === 'create' ? 'Crear ticket' : s.screen === 'edit' ? 'Editar ticket' : s.screen === 'cats' ? 'Categorías' : s.screen === 'users' ? 'Usuarios' : s.screen === 'pulso' ? 'Métricas del área'
       : s.screen === 'detail' ? 'Detalle del ticket' : isAdmin ? 'Todos los tickets' : 'Mis tickets';
     ctx.mine = mine;
     ctx.det = det;

@@ -72,7 +72,7 @@ export const metodosPulso = {
       )];
     }
     const base = pantalla === 'tickets' ? (this._shown || this.visible()) : this.visible();
-    return [pantalla === 'tickets' ? 'tickets-legumex.csv' : 'pulso-legumex.csv', [['Código', 'Título', 'Categoría', 'Estado', 'Prioridad', 'Asignado', 'Sin mover (h)', 'Espera al solicitante']].concat(
+    return [pantalla === 'tickets' ? 'tickets-legumex.csv' : 'metricas-legumex.csv', [['Código', 'Título', 'Categoría', 'Estado', 'Prioridad', 'Asignado', 'Sin mover (h)', 'Espera al solicitante']].concat(
       base.map(t => [
         'TIC-' + t.id, t.titulo, this.cat(t.cat), ST[t.status].label, PR[t.prio].label,
         (this.user(t.asig) || {}).nombre || 'sin asignar', Math.round(this.idle(t)),
