@@ -115,21 +115,21 @@ Todo lo que es de prueba vive en `src/mocks/`:
 | `cargar-datos-prueba.mjs` | Carga datos de prueba en la **base real** usando la API | `npm run datos-prueba` (ver abajo) |
 
 - **Modo demostración** (`VITE_DEMO=true`): la app no llama a la API. Entrar con cualquier
-  correo de `datosDemo.js` (ej. `m.sandoval@tic.gob`, admin, o `l.ovando@tic.gob`,
+  correo de `datosDemo.js` (ej. `m.sandoval@legumex.net`, admin, o `l.ovando@legumex.net`,
   usuario) y cualquier contraseña; el botón "Usar datos de prueba" la llena. En este modo
   se ven funciones que la API no permite (ver "Funciones desactivadas").
 - **Modo simulado** (`npm run dev:simulado`): la app usa el camino real de la API
   (`api.js` + `sync.js`), pero `fetch` a `/api` lo contesta `apiSimulada.js`. Entrar con
-  `admin@legumex.com` (admin) o `usuario@legumex.com` (usuario) y cualquier contraseña de
+  `admin@legumex.net` (admin) o `usuario@legumex.net` (usuario) y cualquier contraseña de
   8+ caracteres. Todo se reinicia al recargar.
 - **Datos en la base real**, con un admin que ya exista:
   ```bash
   # Linux / macOS
-  ADMIN_EMAIL=admin@legumex.com ADMIN_PASSWORD=tu_clave npm run datos-prueba
+  ADMIN_EMAIL=admin@legumex.net ADMIN_PASSWORD=tu_clave npm run datos-prueba
   # Windows PowerShell
-  $env:ADMIN_EMAIL="admin@legumex.com"; $env:ADMIN_PASSWORD="tu_clave"; npm run datos-prueba
+  $env:ADMIN_EMAIL="admin@legumex.net"; $env:ADMIN_PASSWORD="tu_clave"; npm run datos-prueba
   ```
-  Crea 4 categorías, 2 admins y 3 usuarios (`prueba.*@legumex.com`, clave `Prueba1234`),
+  Crea 4 categorías, 2 admins y 3 usuarios (`prueba.*@legumex.net`, clave `Prueba1234`),
   8 tickets con asignaciones y comentarios, y cierra 2. Se puede repetir sin duplicar
   usuarios ni categorías (los tickets sí se vuelven a agregar). `API_URL` opcional.
 
@@ -202,6 +202,10 @@ En modo demostración siguen visibles, como en el prototipo.
   backend agrega `created_at`, se usa automáticamente.
 - El SLA (`config/constantes.js`: Alta 8 h, Media 48 h, Baja 120 h sin movimiento) es un
   umbral del prototipo: la API no lo expone.
+- **Dominio de correo**: al crear o editar usuarios solo se acepta `@legumex.net`
+  (`DOMINIO_CORREO` en `config/constantes.js`; `correoValido` en
+  `logic/metodos/catalogos.js`). El ingreso no filtra por dominio (decide el servidor),
+  solo el ejemplo del campo dice `nombre@legumex.net`.
 - **Llamar por Teams** (detalle, chat y chat flotante; `llamarTeams` en
   `logic/metodos/tickets.js`): confirmación → "Abriendo Teams" → pestaña nueva con
   `https://teams.microsoft.com/l/call/0/0?users=<correo>`; el navegador ofrece abrir la
@@ -268,8 +272,6 @@ automáticos); en el teléfono la misma interfaz se reacomoda.
 
 ## Observaciones del prototipo (no se tocaron; decidir antes de cambiar)
 
-- Placeholders y mensajes de validación de correo dicen `nombre@tic.gob` (dominio del
-  prototipo), mientras los usuarios reales son `@legumex.com`.
 - Hay estilos en línea con claves repetidas (`transition` dos veces en el mismo objeto;
   gana la última) y un `multiple="true"` como texto en el input de adjuntos (React avisa
   en consola). Vite los muestra como advertencias al compilar; no rompen nada.

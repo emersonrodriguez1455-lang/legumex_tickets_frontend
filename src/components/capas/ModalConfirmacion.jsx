@@ -55,7 +55,7 @@ export default function ModalConfirmacion({ V }) {
                 {"Correo institucional"}
               </label>
               {" "}
-              <input value={(V["modalEmail"] ?? "")} onChange={V["onModalEmail"]} placeholder="nombre@tic.gob" style={{ "width": "100%", "background": "#ffffff", "color": "#111827", "border": "1px solid #000000", "borderRadius": "6px", "padding": "10px 12px", "fontSize": "14px", "outline": "none" }} />
+              <input value={(V["modalEmail"] ?? "")} onChange={V["onModalEmail"]} placeholder="nombre@legumex.net" style={{ "width": "100%", "background": "#ffffff", "color": "#111827", "border": "1px solid #000000", "borderRadius": "6px", "padding": "10px 12px", "fontSize": "14px", "outline": "none" }} />
               {" "}
             </div>
             {V["modalPwdOn"] ? (<>

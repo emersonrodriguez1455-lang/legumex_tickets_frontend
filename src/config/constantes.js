@@ -63,3 +63,6 @@ export const PCODE = { high: 'P1', medium: 'P2', low: 'P3' };
 // vista en tarjetas. Debe coincidir con la media query de index.css.
 // Tablets todavía usan el diseño de escritorio: pendiente, ver CONTEXTO.
 export const MQ_MOVIL = '(max-width: 767px), (max-height: 500px) and (pointer: coarse)';
+
+// Único dominio de correo que se acepta al crear o editar usuarios
+export const DOMINIO_CORREO = '@legumex.net';

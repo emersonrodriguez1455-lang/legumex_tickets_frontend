@@ -2,7 +2,7 @@
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
 import * as sync from '../../services/sync.js';
-import { ST } from '../../config/constantes.js';
+import { ST, DOMINIO_CORREO } from '../../config/constantes.js';
 
 export const valoresModal = {
   valoresModal(v, ctx) {
@@ -63,8 +63,8 @@ export const valoresModal = {
           return;
         }
         if (!String(mm.name || '').trim()) { this.setState({ modal: Object.assign({}, mm, { err: 'El nombre no puede quedar vacío.' }) }); return; }
-        if (mm.type === 'user' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(mm.email || '').trim())) {
-          this.setState({ modal: Object.assign({}, mm, { err: 'Ingresá un correo válido, por ejemplo nombre@tic.gob.' }) }); return;
+        if (mm.type === 'user' && !this.correoValido(mm.email)) {
+          this.setState({ modal: Object.assign({}, mm, { err: 'El correo tiene que ser ' + DOMINIO_CORREO + ', por ejemplo nombre' + DOMINIO_CORREO + '.' }) }); return;
         }
         if (api.USE_API && mm.type === 'user' && String(mm.pwd || '').length < 8) {
           this.setState({ modal: Object.assign({}, mm, { err: 'Escribí una contraseña de al menos 8 caracteres.' }) }); return;

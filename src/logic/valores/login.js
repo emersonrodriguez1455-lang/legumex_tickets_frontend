@@ -1,6 +1,7 @@
 // Valores para la plantilla — pantalla de ingreso.
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
 import * as api from '../../services/api.js';
+import { DOMINIO_CORREO } from '../../config/constantes.js';
 
 export const valoresLogin = {
   valoresLogin(v, ctx) {
@@ -51,7 +52,7 @@ export const valoresLogin = {
     v.onTogglePwd = () => this.setState(st => ({ showPwd: !st.showPwd }));
     v.onPwdKey = e => { if (e.key === 'Enter') { e.preventDefault(); v.onLogin(); } };
     v.demoMode = !api.USE_API;
-    v.loginPh = api.USE_API ? 'nombre@legumex.com' : 'nombre@tic.gob';
+    v.loginPh = 'nombre' + DOMINIO_CORREO;
     v.canUnassign = !api.USE_API;
     v.canToggleUser = !api.USE_API; // los usuarios no tienen campo "activo" en la API // la API no tiene cómo dejar un ticket sin asignar
     v.canSwitchRole = false; // sin "Ver como": cada persona ve el sistema con su propio rol
@@ -63,7 +64,7 @@ export const valoresLogin = {
       this.tap('login');
       const fail = msg => { clearTimeout(this._lgE); this.setState({ loginErr: msg, loginPhase: 'err' }); this._lgE = setTimeout(() => this.setState({ loginPhase: '' }), 450); };
       if (!s.email.trim() || !s.password.trim()) { fail('Completá tu correo y tu contraseña para continuar.'); return; }
-      if (!/@/.test(s.email)) { fail('El correo debe tener el formato nombre@tic.gob.'); return; }
+      if (!/@/.test(s.email)) { fail('El correo debe tener el formato nombre' + DOMINIO_CORREO + '.'); return; }
       this.setState({ loginPhase: 'checking', loginErr: '' });
       clearTimeout(this._lg); clearTimeout(this._lg2);
       if (api.USE_API) {

@@ -4,10 +4,10 @@ export function install() {
   const H = h => new Date(Date.now() - h * 3600000).toISOString();
   const db = {
     users: [
-      { id: 1, name: 'María Sandoval', email: 'admin@legumex.com', role: 'admin' },
-      { id: 2, name: 'Diego Ferrer', email: 'd.ferrer@legumex.com', role: 'admin' },
-      { id: 3, name: 'Lucía Ovando', email: 'l.ovando@legumex.com', role: 'user' },
-      { id: 4, name: 'Pablo Arce', email: 'usuario@legumex.com', role: 'user' }
+      { id: 1, name: 'María Sandoval', email: 'admin@legumex.net', role: 'admin' },
+      { id: 2, name: 'Diego Ferrer', email: 'd.ferrer@legumex.net', role: 'admin' },
+      { id: 3, name: 'Lucía Ovando', email: 'l.ovando@legumex.net', role: 'user' },
+      { id: 4, name: 'Pablo Arce', email: 'usuario@legumex.net', role: 'user' }
     ],
     cats: [
       { id: 1, name: 'Hardware', description: 'Equipos, periféricos e impresoras', active: true },

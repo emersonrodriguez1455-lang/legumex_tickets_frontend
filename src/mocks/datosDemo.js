@@ -3,13 +3,13 @@
 // Solo para pruebas: se borra junto con src/mocks al pasar a producción.
 export const DATOS_DEMO = {
   // Botón "Usar datos de prueba" de la pantalla de ingreso
-  credencial: { email: 'm.sandoval@tic.gob', password: 'demo1234' },
+  credencial: { email: 'm.sandoval@legumex.net', password: 'demo1234' },
   users: [
-    { id: 1, nombre: 'María Sandoval', email: 'm.sandoval@tic.gob', rol: 'admin', activo: true },
-    { id: 2, nombre: 'Diego Ferrer', email: 'd.ferrer@tic.gob', rol: 'admin', activo: true },
-    { id: 3, nombre: 'Lucía Ovando', email: 'l.ovando@tic.gob', rol: 'usuario', activo: true },
-    { id: 4, nombre: 'Pablo Arce', email: 'p.arce@tic.gob', rol: 'usuario', activo: true },
-    { id: 5, nombre: 'Renata Ibáñez', email: 'r.ibanez@tic.gob', rol: 'usuario', activo: false }
+    { id: 1, nombre: 'María Sandoval', email: 'm.sandoval@legumex.net', rol: 'admin', activo: true },
+    { id: 2, nombre: 'Diego Ferrer', email: 'd.ferrer@legumex.net', rol: 'admin', activo: true },
+    { id: 3, nombre: 'Lucía Ovando', email: 'l.ovando@legumex.net', rol: 'usuario', activo: true },
+    { id: 4, nombre: 'Pablo Arce', email: 'p.arce@legumex.net', rol: 'usuario', activo: true },
+    { id: 5, nombre: 'Renata Ibáñez', email: 'r.ibanez@legumex.net', rol: 'usuario', activo: false }
   ],
   cats: [
     { id: 1, nombre: 'Hardware', descripcion: 'Equipos, periféricos e impresoras', activo: true },

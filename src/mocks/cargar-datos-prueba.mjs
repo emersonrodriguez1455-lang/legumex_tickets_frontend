@@ -1,8 +1,8 @@
 // Carga datos de prueba en la base de datos real usando la API (no toca la base directamente).
 // Uso:
-//   ADMIN_EMAIL=admin@legumex.com ADMIN_PASSWORD=secret123 npm run datos-prueba
+//   ADMIN_EMAIL=admin@legumex.net ADMIN_PASSWORD=secret123 npm run datos-prueba
 // En Windows (PowerShell):
-//   $env:ADMIN_EMAIL="admin@legumex.com"; $env:ADMIN_PASSWORD="secret123"; npm run datos-prueba
+//   $env:ADMIN_EMAIL="admin@legumex.net"; $env:ADMIN_PASSWORD="secret123"; npm run datos-prueba
 // Opcional: API_URL (por defecto http://192.168.10.209:8001/api)
 //
 // Crea: 4 categorías, 2 admins y 3 usuarios de prueba (contraseña Prueba1234), 8 tickets con
@@ -29,11 +29,11 @@ const CATS = [
   { name: 'Accesos y credenciales', description: 'Usuarios de dominio y sistemas' }
 ];
 const USERS = [
-  { name: 'Diego Ferrer (prueba)', email: 'prueba.diego@legumex.com', role: 'admin' },
-  { name: 'Ana Morales (prueba)', email: 'prueba.ana@legumex.com', role: 'admin' },
-  { name: 'Lucía Ovando (prueba)', email: 'prueba.lucia@legumex.com', role: 'user' },
-  { name: 'Pablo Arce (prueba)', email: 'prueba.pablo@legumex.com', role: 'user' },
-  { name: 'Renata Ibáñez (prueba)', email: 'prueba.renata@legumex.com', role: 'user' }
+  { name: 'Diego Ferrer (prueba)', email: 'prueba.diego@legumex.net', role: 'admin' },
+  { name: 'Ana Morales (prueba)', email: 'prueba.ana@legumex.net', role: 'admin' },
+  { name: 'Lucía Ovando (prueba)', email: 'prueba.lucia@legumex.net', role: 'user' },
+  { name: 'Pablo Arce (prueba)', email: 'prueba.pablo@legumex.net', role: 'user' },
+  { name: 'Renata Ibáñez (prueba)', email: 'prueba.renata@legumex.net', role: 'user' }
 ];
 // autor, categoría, asignado (índices), comentarios [autor, texto], cerrar
 const TICKETS = [

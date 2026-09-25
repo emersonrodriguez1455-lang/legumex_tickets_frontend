@@ -77,7 +77,7 @@ export default function EntidadFormulario({ V }) {
                 {"Correo institucional"}
               </label>
               {" "}
-              <input value={(V["entEmail"] ?? "")} onChange={V["onEntEmail"]} placeholder="nombre@tic.gob" style={{ "width": "100%", "background": "#ffffff", "color": "#111827", "border": "1px solid " + S(V["entEmailBorder"]), "borderRadius": "6px", "padding": "10px 12px", "fontSize": "14px", "outline": "none" }} />
+              <input value={(V["entEmail"] ?? "")} onChange={V["onEntEmail"]} placeholder="nombre@legumex.net" style={{ "width": "100%", "background": "#ffffff", "color": "#111827", "border": "1px solid " + S(V["entEmailBorder"]), "borderRadius": "6px", "padding": "10px 12px", "fontSize": "14px", "outline": "none" }} />
               {" "}
               <span style={{ "fontSize": "12px", "color": "#737373" }}>
                 {"Es el usuario con el que inicia sesión."}

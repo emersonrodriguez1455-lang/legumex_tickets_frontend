@@ -45,7 +45,8 @@ export const valoresEntidad = {
       v.entPwdLabel = ent.id ? 'Contraseña nueva' : 'Contraseña';
       v.entPwdHelp = ent.id ? 'La API la pide también para guardar cambios: la que escribas pasa a ser su contraseña.' : 'Con esta inicia sesión. Pasásela por un canal seguro.';
       v.entPwdBorder = ent.err && ent.err.indexOf('contraseña') >= 0 ? '#ea580c' : '#e5e5e5';
-      v.onEntSave = () => ent.id ? this.saveEntity() : this.heavy('Creando el registro', 900, () => this.saveEntity());
+      // Correo de otro dominio: el aviso sale al instante, sin la espera de "Creando el registro"
+      v.onEntSave = () => ent.id || (ent.type === 'user' && !this.correoValido(ent.email)) ? this.saveEntity() : this.heavy('Creando el registro', 900, () => this.saveEntity());
       v.onEntCancel = () => this.closeEntity();
     }
   }

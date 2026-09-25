@@ -2,8 +2,15 @@
 // Se mezclan en Logica.prototype: "this" es la instancia de Logica.
 import * as api from '../../services/api.js';
 import * as sync from '../../services/sync.js';
+import { DOMINIO_CORREO } from '../../config/constantes.js';
 
 export const metodosCatalogos = {
+  // Correo de usuario: formato nombre@dominio y solo del dominio de la empresa (config)
+  correoValido(email) {
+    const e = String(email || '').trim().toLowerCase();
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e) && e.endsWith(DOMINIO_CORREO);
+  },
+
   // D2/D4 · desactivar o reactivar usuarios. Un admin con tickets activos los pasa al de menor carga.
   toggleUser(u) {
     const me = this.me();
@@ -55,8 +62,8 @@ export const metodosCatalogos = {
     if (!e) return;
     const name = String(e.name || '').trim();
     if (!name) { this.setState({ entity: Object.assign({}, e, { err: 'El nombre no puede quedar vacío.' }) }); return; }
-    if (e.type === 'user' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(e.email || '').trim())) {
-      this.setState({ entity: Object.assign({}, e, { err: 'Ingresá un correo válido, por ejemplo nombre@tic.gob.' }) }); return;
+    if (e.type === 'user' && !this.correoValido(e.email)) {
+      this.setState({ entity: Object.assign({}, e, { err: 'El correo tiene que ser ' + DOMINIO_CORREO + ', por ejemplo nombre' + DOMINIO_CORREO + '.' }) }); return;
     }
     // La API pide contraseña para crear y también para guardar cambios de un usuario
     if (api.USE_API && e.type === 'user' && String(e.pwd || '').length < 8) {
