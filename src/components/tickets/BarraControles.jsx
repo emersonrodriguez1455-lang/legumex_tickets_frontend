@@ -7,21 +7,32 @@ export default function BarraControles({ V }) {
   return (
     <div data-m="controles" style={{ "display": "flex", "flexDirection": "column", "alignItems": "stretch", "gap": "12px", "padding": "14px 0", "borderBottom": "1px solid #e5e5e5", "marginBottom": "12px", "position": "sticky", "top": "0", "zIndex": "24", "background": "rgba(244,245,241,0.95)", "boxShadow": "0 10px 24px -14px rgba(11,42,30,calc(0.35 * var(--fadeOn,0)))", "transition": "box-shadow 240ms ease", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "paddingLeft": "12px", "paddingRight": "12px" }} className="scpn">
       {" "}
-      {/* Orden visual: título + acciones (buscar, vista, exportar, Crear ticket) arriba y los
-          filtros en la fila de abajo; así en laptops "Crear ticket" no cae a una fila suelta. */}
       <div style={{ "display": "flex", "alignItems": "center", "flexWrap": "wrap", "columnGap": "12px", "rowGap": "12px", "minHeight": "40px", "minWidth": "0" }}>
         {" "}
-        <h1 title={V["pageTitle"]} style={{ "flex": "1 0 auto", "maxWidth": "100%", "minWidth": "0", "overflow": "hidden", "textOverflow": "ellipsis", "fontSize": "28px", "lineHeight": "40px", "fontWeight": "800", "letterSpacing": "-0.04em", "margin": "0", "color": "#171717", "whiteSpace": "nowrap" }}>
+        <h1 title={V["pageTitle"]} style={{ "flex": "1", "minWidth": "0", "overflow": "hidden", "textOverflow": "ellipsis", "fontSize": "28px", "lineHeight": "40px", "fontWeight": "800", "letterSpacing": "-0.04em", "margin": "0", "color": "#171717", "whiteSpace": "nowrap" }}>
           {T(V["pageTitle"])}
         </h1>
+        {/* Aviso de sesión junto al título: así los filtros y las acciones (con "Crear ticket")
+            caben en una sola línea en laptops. */}
+        {V["hasSessionMsg"] ? (<>
+          {" "}
+          <span style={{ "display": "inline-flex", "alignItems": "center", "gap": "6px", "background": "#f5f5f5", "borderRadius": "9999px", "padding": "4px 10px", "fontSize": "11px", "color": "#525252", "whiteSpace": "nowrap", "animation": "dropIn var(--duration-base) var(--ease-standard) both" }}>
+            {" "}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#525252" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ "flexShrink": "0" }}>
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+            </svg>
+            {T(V["sessionMsg"])}{" "}
+          </span>
+          {" "}
+        </>) : null}
         {" "}
         {V["ctlRow"] ? (<>
-          <span aria-hidden="true" style={{ "flexBasis": "100%", "height": "0", "order": "2" }}></span>
+          <span aria-hidden="true" style={{ "flexBasis": "100%", "height": "0" }}></span>
         </>) : null}
         {" "}
         {V["ctlRow"] ? (<>
           {" "}
-          <div style={{ "display": "flex", "alignItems": "center", "gap": "8px", "flexWrap": "wrap", "minWidth": "0", "order": "2" }}>
+          <div style={{ "display": "flex", "alignItems": "center", "gap": "8px", "flexWrap": "wrap", "minWidth": "0" }}>
             {" "}
             {V["nudgedOnlyOn"] ? (<>
               {" "}
@@ -67,7 +78,7 @@ export default function BarraControles({ V }) {
                     <rect width="18" height="18" x="3" y="4" rx="2"></rect>
                     <path d="M3 10h18"></path>
                   </svg>
-                  {"Creados en"}
+                  <span data-m="rotulo-periodo">{"Creados en"}</span>
                   <span style={{ "fontWeight": "600", "color": "#171717" }}>
                     {T(V["periodLabel"])}
                   </span>
@@ -238,19 +249,8 @@ export default function BarraControles({ V }) {
           {" "}
         </>) : null}
         {" "}
-        <div style={{ "marginLeft": "auto", "flexShrink": "0", "display": "flex", "alignItems": "center", "gap": "4px", "minWidth": "0", "order": "1" }}>
+        <div style={{ "marginLeft": "auto", "flexShrink": "0", "display": "flex", "alignItems": "center", "gap": "4px", "minWidth": "0" }}>
           {" "}
-          {V["hasSessionMsg"] ? (<>
-            {" "}
-            <span style={{ "display": "inline-flex", "alignItems": "center", "gap": "6px", "background": "#f5f5f5", "borderRadius": "9999px", "padding": "4px 10px", "fontSize": "11px", "color": "#525252", "whiteSpace": "nowrap", "animation": "dropIn var(--duration-base) var(--ease-standard) both" }}>
-              {" "}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#525252" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ "flexShrink": "0" }}>
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-              </svg>
-              {T(V["sessionMsg"])}{" "}
-            </span>
-            {" "}
-          </>) : null}
           {" "}
           {V["searchClosed"] ? (<>
             {" "}
@@ -267,7 +267,7 @@ export default function BarraControles({ V }) {
           {" "}
           {V["searchOpen"] ? (<>
             {" "}
-            <div style={{ "position": "relative", "width": "min(280px,34vw)", "minWidth": "160px", "animation": "searchGrow var(--duration-base) var(--ease-standard) both" }}>
+            <div data-m="caja-busqueda" style={{ "position": "relative", "width": "min(280px,34vw)", "minWidth": "160px", "animation": "searchGrow var(--duration-base) var(--ease-standard) both" }}>
               {" "}
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#525252" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ "position": "absolute", "left": "11px", "top": "50%", "transform": "translateY(-50%)", "pointerEvents": "none" }}>
                 <circle cx="11" cy="11" r="8"></circle>

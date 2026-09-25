@@ -185,6 +185,15 @@
 .scp2l:hover{background:rgba(255,255,255,0.14) !important;--ic:1.15 !important;--is:#fcd34d !important;--im:translateX(-3px) !important}
 .scp2m:active{background:rgba(255,255,255,0.22) !important}
 
+/* Laptops (o monitores con zoom de Windows): sin el rótulo "Creados en" y con el buscador
+   más corto, los filtros y las acciones con "Crear ticket" caben en una sola línea. */
+@media (min-width:768px) and (max-width:1365px){
+  [data-m="rotulo-periodo"]{display:none}
+}
+@media (min-width:768px) and (max-width:1535px){
+  [data-m="caja-busqueda"]{width:200px!important}
+}
+
 /* ──────────── Diseño móvil (≤ 767 px, o teléfono en horizontal) ────────────
    Un solo código para PC y teléfono: en escritorio nada de esto aplica. Los estilos del
    prototipo van en línea, por eso aquí se usa !important sobre elementos marcados con

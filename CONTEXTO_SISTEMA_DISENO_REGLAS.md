@@ -247,12 +247,13 @@ automáticos); en el teléfono la misma interfaz se reacomoda.
   ancestro lo encierra (deja de cubrir la pantalla). Por eso en el teléfono la animación
   de entrada de cada pantalla no queda aplicada al terminar y la barra de controles de la
   lista no tiene blur. Cualquier capa nueva que deba cubrir la pantalla, revisar esto.
-- **Laptops y monitores** (revisado en 1280×720, 1366×640/768, 1920×1080 y 2560×1440):
-  en la barra de la lista, el título y las acciones (buscar, vista, exportar, "Crear
-  ticket") van en la primera fila y los filtros en la segunda (`order` en
-  `BarraControles.jsx`), así "Crear ticket" no cae a una fila suelta. Las tarjetas piden
-  380px como mínimo (`VistaTarjetas.jsx`) para que el nombre y la categoría no se corten:
-  2 columnas en laptop, 3 en 1920.
+- **Laptops y monitores** (revisado de 1093 a 2560 px de ancho): en la barra de la lista
+  el título va arriba con el aviso "Sesión verificada al volver"; abajo, en una sola
+  línea, los filtros (Todos/Míos, período, Filtro) y las acciones (buscar, vista,
+  exportar, "Crear ticket"). Para que quepan en laptops, `index.css` esconde el rótulo
+  "Creados en" hasta 1365 px y acorta el buscador a 200 px hasta 1535 px. Las tarjetas
+  piden 380px como mínimo (`VistaTarjetas.jsx`) para que el nombre y la categoría no se
+  corten: 2 columnas en laptop, 3 en 1920.
 - **Tablets: pendiente.** Hoy usan el diseño de escritorio (el ancho es de escritorio).
   Antes pasó que en teléfono se veía bien y en tablet como escritorio: tratarlas en una
   tanda aparte, considerando también la firma en tablet (es más complicada), que se verá
