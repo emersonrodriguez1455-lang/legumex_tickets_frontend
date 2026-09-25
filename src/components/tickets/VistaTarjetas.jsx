@@ -11,7 +11,7 @@ export default function VistaTarjetas({ V }) {
         {" "}
         {V["loading"] ? (<>
           {" "}
-          <div data-m="grilla-tarjetas" style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(316px,1fr))", "gap": "12px" }}>
+          <div data-m="grilla-tarjetas" style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(380px,1fr))", "gap": "12px" }}>
             {" "}
             {L(V["ghostCards6"]).map((_g_14, $index) => (
               <React.Fragment key={$index}>
@@ -59,7 +59,7 @@ export default function VistaTarjetas({ V }) {
         {" "}
         {V["loaded"] ? (<>
           {" "}
-          <div data-m="grilla-tarjetas" style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(316px,1fr))", "gap": "12px" }}>
+          <div data-m="grilla-tarjetas" style={{ "display": "grid", "gridTemplateColumns": "repeat(auto-fill,minmax(380px,1fr))", "gap": "12px" }}>
             {" "}
             {L(V["rows"]).map((_t_15, $index) => (
               <React.Fragment key={$index}>

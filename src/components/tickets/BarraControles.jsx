@@ -7,19 +7,21 @@ export default function BarraControles({ V }) {
   return (
     <div data-m="controles" style={{ "display": "flex", "flexDirection": "column", "alignItems": "stretch", "gap": "12px", "padding": "14px 0", "borderBottom": "1px solid #e5e5e5", "marginBottom": "12px", "position": "sticky", "top": "0", "zIndex": "24", "background": "rgba(244,245,241,0.95)", "boxShadow": "0 10px 24px -14px rgba(11,42,30,calc(0.35 * var(--fadeOn,0)))", "transition": "box-shadow 240ms ease", "backdropFilter": "blur(12px)", "WebkitBackdropFilter": "blur(12px)", "borderRadius": "12px", "paddingLeft": "12px", "paddingRight": "12px" }} className="scpn">
       {" "}
+      {/* Orden visual: título + acciones (buscar, vista, exportar, Crear ticket) arriba y los
+          filtros en la fila de abajo; así en laptops "Crear ticket" no cae a una fila suelta. */}
       <div style={{ "display": "flex", "alignItems": "center", "flexWrap": "wrap", "columnGap": "12px", "rowGap": "12px", "minHeight": "40px", "minWidth": "0" }}>
         {" "}
-        <h1 title={V["pageTitle"]} style={{ "flex": "1", "minWidth": "0", "overflow": "hidden", "textOverflow": "ellipsis", "fontSize": "28px", "lineHeight": "40px", "fontWeight": "800", "letterSpacing": "-0.04em", "margin": "0", "color": "#171717", "whiteSpace": "nowrap" }}>
+        <h1 title={V["pageTitle"]} style={{ "flex": "1 0 auto", "maxWidth": "100%", "minWidth": "0", "overflow": "hidden", "textOverflow": "ellipsis", "fontSize": "28px", "lineHeight": "40px", "fontWeight": "800", "letterSpacing": "-0.04em", "margin": "0", "color": "#171717", "whiteSpace": "nowrap" }}>
           {T(V["pageTitle"])}
         </h1>
         {" "}
         {V["ctlRow"] ? (<>
-          <span aria-hidden="true" style={{ "flexBasis": "100%", "height": "0" }}></span>
+          <span aria-hidden="true" style={{ "flexBasis": "100%", "height": "0", "order": "2" }}></span>
         </>) : null}
         {" "}
         {V["ctlRow"] ? (<>
           {" "}
-          <div style={{ "display": "flex", "alignItems": "center", "gap": "8px", "flexWrap": "wrap", "minWidth": "0" }}>
+          <div style={{ "display": "flex", "alignItems": "center", "gap": "8px", "flexWrap": "wrap", "minWidth": "0", "order": "2" }}>
             {" "}
             {V["nudgedOnlyOn"] ? (<>
               {" "}
@@ -236,7 +238,7 @@ export default function BarraControles({ V }) {
           {" "}
         </>) : null}
         {" "}
-        <div style={{ "marginLeft": "auto", "flexShrink": "0", "display": "flex", "alignItems": "center", "gap": "4px", "minWidth": "0" }}>
+        <div style={{ "marginLeft": "auto", "flexShrink": "0", "display": "flex", "alignItems": "center", "gap": "4px", "minWidth": "0", "order": "1" }}>
           {" "}
           {V["hasSessionMsg"] ? (<>
             {" "}
@@ -252,7 +254,7 @@ export default function BarraControles({ V }) {
           {" "}
           {V["searchClosed"] ? (<>
             {" "}
-            <button onClick={V["onOpenSearch"]} aria-label="Buscar tickets" title="Buscar por título o código  ·  /" style={{ "background": "transparent", "color": "#171717", "border": "1px solid transparent", "borderRadius": "8px", "width": "40px", "height": "40px", "padding": "0", "cursor": "pointer", "display": "inline-flex", "alignItems": "center", "justifyContent": "center", "transition": "transform var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard),border-color var(--duration-fast) var(--ease-standard)" }} className="scpw scp4">
+            <button onClick={V["onOpenSearch"]} aria-label="Buscar tickets" title="Buscar por título o código" style={{ "background": "transparent", "color": "#171717", "border": "1px solid transparent", "borderRadius": "8px", "width": "40px", "height": "40px", "padding": "0", "cursor": "pointer", "display": "inline-flex", "alignItems": "center", "justifyContent": "center", "transition": "transform var(--duration-fast) var(--ease-standard),background-color var(--duration-fast) var(--ease-standard),border-color var(--duration-fast) var(--ease-standard)" }} className="scpw scp4">
               {" "}
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#525252" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ "flexShrink": "0", "transform": "var(--im,rotate(0deg)) scale(var(--ic,1))", "transformOrigin": "center", "transition": "transform var(--duration-base) var(--ease-standard)", "stroke": "var(--is,#525252)" }}>
                 <circle cx="11" cy="11" r="8"></circle>
