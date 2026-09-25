@@ -160,6 +160,12 @@ Copiar `.env.example` a `.env` (el `.env` no se sube al repo):
   (`tickets-tic.token`).
 - Al entrar y cada 45 s: `GET /api/users`, `/api/ticket_categories`, `/api/tickets`,
   `/api/ticket_comments`, `/api/ticket_histories`, `/api/ticket_attachments`.
+  Si mientras llega esa respuesta la persona hizo un cambio (o hay guardados viajando),
+  la respuesta se descarta porque ya es vieja y taparía el cambio en pantalla, y se vuelve
+  a pedir a los 2 s (hasta 5 veces seguidas; después queda para el sondeo normal). Así lo
+  recién hecho nunca desaparece y lo de los demás llega enseguida
+  (`services/sync.js → refresh`). La recarga forzada (al entrar, o cuando falla un
+  guardado) se aplica siempre.
 - Crear ticket: `POST /api/tickets`. Si responde 500 (falló el correo), se vuelve a pedir
   la lista y se busca el número antes de dar error.
 - Editar: `PUT /api/tickets/{id}` (admin manda `status` y `priority`; el usuario no).
@@ -254,12 +260,6 @@ automáticos); en el teléfono la misma interfaz se reacomoda.
   gana la última) y un `multiple="true"` como texto en el input de adjuntos (React avisa
   en consola). Vite los muestra como advertencias al compilar; no rompen nada.
 - Variables sin uso heredadas (`roleReset`, `tieneResp`, `act` en `logic/valores`).
-- **Refresco que pisa cambios recientes** (`services/sync.js → refresh`): si la persona
-  hace algo (comentar, marcar bloqueante, etc.) mientras un refresco periódico está en
-  vuelo, la respuesta llega con datos anteriores y el cambio desaparece de la pantalla
-  hasta el siguiente refresco (45 s). El cambio sí se guarda en el servidor. Pasa igual en
-  PC y en teléfono; propuesta: descartar el resultado del refresco si hubo cambios locales
-  mientras viajaba.
 - En escritorio, el menú "Vista y orden" no se cierra tocando la lista, solo tocando el
   encabezado (su fondo queda encerrado por el blur de la barra). En el teléfono no pasa.
 

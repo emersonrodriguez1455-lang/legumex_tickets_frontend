@@ -13,8 +13,11 @@ export function rememberFile(url, file) { if (url && file) files[url] = file; }
 // Cola por recurso: los cambios de un mismo ticket viajan en orden
 const queues = new Map();
 let pending = 0;
+// Cuenta cada cambio local que se manda al servidor: sirve para saber si una consulta
+// periódica quedó vieja mientras viajaba (ver refresh).
+let cambiosLocales = 0;
 function enqueue(key, task, logic) {
-  pending++;
+  pending++; cambiosLocales++;
   const prev = queues.get(key) || Promise.resolve();
   const next = prev.then(task).catch(err => onError(err, logic)).finally(() => { pending--; if (queues.get(key) === next) queues.delete(key); });
   queues.set(key, next);
@@ -52,9 +55,26 @@ let firstLoad = true;
 const hoursFrom = ms => Math.max(0, (Date.now() - ms) / 3600000);
 const kb = b => (b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.round((b || 0) / 1024) + ' KB');
 
+// Si una consulta periódica no se puede aplicar (hay guardados viajando, o la persona cambió
+// algo mientras se esperaba la respuesta), se repite a los 2 s en vez de esperar al próximo
+// sondeo de 45 s. Tope de reintentos seguidos para no quedar en bucle.
+const REINTENTO_MS = 2000, MAX_REINTENTOS = 5;
+let reintentoT = null, reintentos = 0;
+function reintentar(logic) {
+  clearTimeout(reintentoT);
+  if (reintentos >= MAX_REINTENTOS) { reintentos = 0; return; } // queda para el próximo sondeo
+  reintentos++;
+  reintentoT = setTimeout(() => {
+    const st = logic.state || {};
+    if (!st.authed || !st.session) { reintentos = 0; return; } // cerró sesión: nada que traer
+    refresh(logic).catch(() => {});
+  }, REINTENTO_MS);
+}
+
 export async function refresh(logic, force) {
   if (!api.USE_API) return;
-  if (!force && pending > 0) return; // hay cambios viajando: se espera al próximo sondeo
+  if (!force && pending > 0) { reintentar(logic); return; } // hay cambios viajando
+  const marca = cambiosLocales;
   const [users, cats, tickets, comments, histories, atts] = await Promise.all([
     api.listUsers().catch(() => null),
     api.listCategories(),
@@ -63,6 +83,10 @@ export async function refresh(logic, force) {
     api.listHistories().catch(() => []),
     api.listAttachments().catch(() => [])
   ]);
+  // Mientras se esperaba la respuesta la persona cambió algo: estos datos ya son viejos y
+  // taparían ese cambio en pantalla (el servidor sí lo tiene). Se descartan y se vuelve a pedir.
+  if (!force && (cambiosLocales !== marca || pending > 0)) { reintentar(logic); return; }
+  reintentos = 0;
   const st = logic.state, ses = st.session || {};
   let us = (users || []).map(u => ({ id: u.id, nombre: u.name, email: u.email, rol: rolDe(u.role), activo: u.active !== false }));
   if (ses.email && !us.some(u => u.email === ses.email)) {
