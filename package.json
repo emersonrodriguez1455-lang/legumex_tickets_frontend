@@ -1,0 +1,21 @@
+{
+  "name": "tickets-tic",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:simulado": "vite --mode simulado",
+    "build": "vite build",
+    "preview": "vite preview",
+    "datos-prueba": "node scripts/cargar-datos-prueba.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.0"
+  }
+}
