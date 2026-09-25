@@ -1,12 +1,14 @@
 import React from 'react';
-import { Component as Logic } from './logic.js';
-import { renderTemplate } from './template.jsx';
-import * as sync from './sync.js';
+import { Logica } from './logic/Logica.js';
+import { renderInterfaz } from './layouts/Interfaz.jsx';
+import * as sync from './services/sync.js';
 
+// Une lógica, interfaz y sincronización: la lógica guarda el estado y arma los valores (V),
+// la interfaz los pinta y sync manda al servidor lo que cambió en cada acción.
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.logic = new Logic(props);
+    this.logic = new Logica(props);
     this.logic.__host = this;
     this.state = { v: 0 };
   }
@@ -22,6 +24,6 @@ export default class App extends React.Component {
   componentWillUnmount() { this.logic.componentWillUnmount(); }
   render() {
     const V = { ...this.props, ...(this.logic.renderVals() || {}) };
-    return renderTemplate(V);
+    return renderInterfaz(V);
   }
 }

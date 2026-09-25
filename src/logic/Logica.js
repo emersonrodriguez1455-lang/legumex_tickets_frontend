@@ -1,0 +1,235 @@
+// Lógica del sistema: estado único y reglas (roles, permisos, asignación, chat, filtros).
+// Los métodos viven en ./metodos y los valores para la plantilla en ./valores; aquí queda
+// el estado inicial, el ciclo de vida y renderVals(), que arma "V" para la interfaz.
+import { LogicaBase } from './LogicaBase.js';
+import * as api from '../services/api.js';
+import * as sync from '../services/sync.js';
+import { metodosTiempos } from './metodos/tiempos.js';
+import { metodosInterfaz } from './metodos/interfaz.js';
+import { metodosSesion } from './metodos/sesion.js';
+import { metodosTickets } from './metodos/tickets.js';
+import { metodosFormulario } from './metodos/formulario.js';
+import { metodosUrl } from './metodos/url.js';
+import { metodosAdjuntos } from './metodos/adjuntos.js';
+import { metodosChat } from './metodos/chat.js';
+import { metodosPulso } from './metodos/pulso.js';
+import { metodosCatalogos } from './metodos/catalogos.js';
+import { metodosNotificaciones } from './metodos/notificaciones.js';
+import { valoresLogin } from './valores/login.js';
+import { valoresApp } from './valores/app.js';
+import { valoresPulso } from './valores/pulso.js';
+import { valoresLista } from './valores/lista.js';
+import { valoresFormulario } from './valores/formulario.js';
+import { valoresDetalle } from './valores/detalle.js';
+import { valoresCatalogos } from './valores/catalogos.js';
+import { valoresModal } from './valores/modal.js';
+import { valoresCapas } from './valores/capas.js';
+import { valoresTitulos } from './valores/titulos.js';
+import { valoresEntidad } from './valores/entidad.js';
+import { valoresChat } from './valores/chat.js';
+
+export class Logica extends LogicaBase {
+  state = {
+    authed: false, email: '', password: '', loginErr: '',
+    role: this.props.rolInicial || 'admin',
+    screen: 'tickets',
+    view: (this.props.vistaInicial === 'tabla' || this.props.vistaInicial === 'table') ? 'table' : this.props.vistaInicial === 'kanban' ? 'kanban' : 'cards',
+    tap: '', undo: null,
+    q: '', searchOpen: false, statusFilter: 'all', prioFilter: 'all', dStatus: 'all', dPrio: 'all',
+    chatOpen: false, chatId: null, chatQ: '', chatStatus: 'all', chatMsg: '', chatErr: '', fabSmall: false,
+    booting: true, bootFading: false, navHover: '', detailId: null, cursor: -1,
+    form: { titulo: '', desc: '', cat: '', status: 'open', prio: 'medium' },
+    editId: null, dir: 'none', celebrate: null,
+    formErr: null, comment: '', commentErr: '',
+    entity: null, modal: null, toast: '', seq: 1042, sort: this.props.ordenInicial === 'recientes' ? 'recientes' : 'urgencia',
+    err500: this.props.estadoError === '500',
+    forced: this.props.estadoError || 'ninguno',
+    page: { tickets: 0, cats: 0, users: 0 },
+    loading: true, swap: 0, busy: '', modalClosing: false, toastOut: false,
+    heavyMsg: '', moment: null, qa: null, staged: [], lightbox: null, viewOpen: false, periodOpen: false, period: '30',
+    uploads: [], saving: '', err500Line: 'HTTP 500 · GET /api/tickets', draftFound: false, sessionOk: true, sessionMsg: '',
+    dragId: null, dragOver: null, landed: null, asigOpen: false,
+    users: [
+      { id: 1, nombre: 'María Sandoval', email: 'm.sandoval@tic.gob', rol: 'admin', activo: true },
+      { id: 2, nombre: 'Diego Ferrer', email: 'd.ferrer@tic.gob', rol: 'admin', activo: true },
+      { id: 3, nombre: 'Lucía Ovando', email: 'l.ovando@tic.gob', rol: 'usuario', activo: true },
+      { id: 4, nombre: 'Pablo Arce', email: 'p.arce@tic.gob', rol: 'usuario', activo: true },
+      { id: 5, nombre: 'Renata Ibáñez', email: 'r.ibanez@tic.gob', rol: 'usuario', activo: false }
+    ],
+    cats: [
+      { id: 1, nombre: 'Hardware', descripcion: 'Equipos, periféricos e impresoras', activo: true },
+      { id: 2, nombre: 'Software y licencias', descripcion: 'Instalaciones y altas de licencia', activo: true },
+      { id: 3, nombre: 'Redes y conectividad', descripcion: 'Wi-Fi, cableado y VPN', activo: true },
+      { id: 4, nombre: 'Accesos y credenciales', descripcion: 'Usuarios de dominio y sistemas', activo: true },
+      { id: 5, nombre: 'Telefonía IP', descripcion: 'Anexos y centralita', activo: false }
+    ],
+    tickets: [
+      { id: 1042, titulo: 'La notebook de Mesa de Partes no enciende', desc: 'El equipo no da señal de video ni carga. Ya probamos con otro cargador y otro tomacorriente. Mesa de Partes está atendiendo con un equipo prestado.', cat: 1, status: 'open', prio: 'high', autor: 3, asig: 2, creado: '16 sep, 08:20', h: 26,
+        comentarios: [{ autor: 2, texto: 'Paso a retirar el equipo en la primera hora de la tarde para revisar la placa.', h: 18 }],
+        historial: [{ autor: 'María Sandoval', texto: 'Asignado a Diego Ferrer', h: 20, kind: 'assign' }, { autor: 'Lucía Ovando', texto: 'Ticket creado con prioridad Alta', h: 26, kind: 'create' }],
+        adjuntos: [{ nombre: 'pantalla-negra.png', tipo: 'PNG · 1280×720', peso: '412 KB', autor: 3, h: 25 }, { nombre: 'etiqueta-inventario.jpg', tipo: 'JPG · 900×600', peso: '188 KB', autor: 3, h: 24 }] },
+      { id: 1041, titulo: 'Solicitud de licencia de Office para nuevo ingreso', desc: 'Ingresa personal nuevo el lunes y necesita Office instalado con la cuenta institucional.', cat: 2, status: 'in_progress', prio: 'medium', autor: 4, asig: 1, creado: '16 sep, 04:05', h: 30,
+        comentarios: [{ autor: 1, texto: 'Licencia reservada. Coordino la instalación para el lunes a las 8.', h: 6 }],
+        historial: [{ autor: 'María Sandoval', texto: 'Estado cambiado a En progreso', h: 6, kind: 'status' }, { autor: 'Pablo Arce', texto: 'Ticket creado con prioridad Media', h: 30, kind: 'create' }],
+        adjuntos: [] },
+      { id: 1040, titulo: 'Wi-Fi intermitente en el piso 3', desc: 'Las conexiones se cortan cada 10 minutos en el ala oeste. Afecta a unas 12 personas.', cat: 3, status: 'in_progress', prio: 'high', autor: 3, asig: 2, creado: '15 sep, 06:30', h: 52,
+        comentarios: [{ autor: 2, texto: 'El AP del ala oeste está saturado. Pedí un equipo de reemplazo a Infraestructura.', h: 5 }],
+        historial: [{ autor: 'Diego Ferrer', texto: 'Estado cambiado a En progreso', h: 30, kind: 'status' }, { autor: 'Lucía Ovando', texto: 'Ticket creado con prioridad Alta', h: 52, kind: 'create' }],
+        adjuntos: [{ nombre: 'test-velocidad.png', tipo: 'PNG · 1024×640', peso: '96 KB', autor: 3, h: 51 }] },
+      { id: 1039, titulo: 'Reset de contraseña de dominio', desc: 'No puedo ingresar al equipo desde la vuelta de licencia.', cat: 4, status: 'closed', prio: 'low', autor: 4, asig: 1, creado: '14 sep, 10:20', h: 72,
+        comentarios: [{ autor: 1, texto: 'Contraseña restablecida. Te pide cambiarla en el primer ingreso.', h: 60 }],
+        historial: [{ autor: 'María Sandoval', texto: 'Ticket cerrado', h: 58, kind: 'close' }, { autor: 'Pablo Arce', texto: 'Ticket creado con prioridad Baja', h: 72, kind: 'create' }],
+        adjuntos: [] },
+      { id: 1038, titulo: 'La impresora de Contabilidad imprime con franjas', desc: 'Salen líneas blancas horizontales en todas las hojas. Ya limpiamos los cabezales.', cat: 1, status: 'open', prio: 'medium', autor: 5, asig: null, creado: '15 sep, 14:35', h: 44,
+        comentarios: [], historial: [{ autor: 'Renata Ibáñez', texto: 'Ticket creado con prioridad Media', h: 44, kind: 'create' }], adjuntos: [] },
+      { id: 1037, titulo: 'Alta de usuario en el sistema de expedientes', desc: 'Necesito acceso de consulta para el área de Legales.', cat: 4, status: 'open', prio: 'low', autor: 3, asig: null, creado: '13 sep, 10:05', h: 96,
+        comentarios: [], historial: [{ autor: 'Lucía Ovando', texto: 'Ticket creado con prioridad Baja', h: 96, kind: 'create' }], adjuntos: [] },
+      { id: 1036, titulo: 'El anexo 214 no tiene tono', desc: 'El teléfono enciende pero no da tono de línea.', cat: 5, status: 'closed', prio: 'medium', autor: 4, asig: 2, creado: '10 sep, 09:48', h: 168,
+        comentarios: [{ autor: 2, texto: 'Se reemplazó el patch cord del rack. Anexo operativo.', h: 150 }],
+        historial: [{ autor: 'Diego Ferrer', texto: 'Ticket cerrado', h: 148, kind: 'close' }, { autor: 'Pablo Arce', texto: 'Ticket creado con prioridad Media', h: 168, kind: 'create' }], adjuntos: [] }
+    ]
+  };
+
+  componentDidMount() {
+    if (api.USE_API) sync.silent(() => this.setState({ tickets: [], cats: [] }));
+    api.onUnauthorized(() => { if (this.state.authed) { clearInterval(this._pollIv); this.setState({ session: null, authed: false, screen: 'tickets', detailId: null, loginPhase: '', loginErr: 'Tu sesión expiró. Volvé a entrar.' }); } });
+    if (api.USE_API && api.getToken()) api.checkStatus().then(d => this.applySession(d)).catch(() => {});
+    this._boot = setTimeout(() => {
+      this.setState({ bootFading: true });
+      this._bootOut = setTimeout(() => this.setState({ booting: false }), 280);
+    }, 1250);
+
+    this._onScroll = () => {
+      if (!this.state.fabSmall) this.setState({ fabSmall: true });
+      clearTimeout(this._fabT);
+      this._fabT = setTimeout(() => this.setState({ fabSmall: false }), 400);
+    };
+    window.addEventListener('scroll', this._onScroll, true);
+    this.load(650);
+    this._vis = () => {
+      if (document.visibilityState !== 'visible' || !this.state.authed) return;
+      this.setState({ sessionMsg: 'Verificando sesión…' });
+      clearTimeout(this._sess);
+      this._sess = setTimeout(() => {
+        if (this.props.estadoError === '401') {
+          this.setState({ sessionOk: false, sessionMsg: 'Sesión caducada', forced: '401' });
+          return;
+        }
+        this.setState({ sessionOk: true, sessionMsg: 'Sesión verificada al volver' });
+      }, 600);
+    };
+    document.addEventListener('visibilitychange', this._vis);
+    this._hash = () => { if (this.state.authed) this.applyUrl(); };
+    window.addEventListener('hashchange', this._hash);
+    this._keys = e => {
+      const s = this.state;
+      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName || ''));
+      if (s.lightbox) {
+        if (e.key === 'Escape') this.setState({ lightbox: null });
+        else if (e.key === '+' || e.key === '=') this.lbZoomAt(((s.lbZ || {}).z || 1) * 1.5, 0, 0);
+        else if (e.key === '-') this.lbZoomAt(((s.lbZ || {}).z || 1) / 1.5, 0, 0);
+        else if (e.key === '0') this.setState({ lbZ: { z: 1, x: 0, y: 0 } });
+        else if (e.key === 'ArrowRight') this.lbStep(1);
+        else if (e.key === 'ArrowLeft') this.lbStep(-1);
+        return;
+      }
+      if (e.key === 'Escape' && s.qa) { this.setState({ qa: null }); return; }
+      if (e.key === 'Escape' && (s.viewOpen || s.periodOpen)) { this.setState({ viewOpen: false, periodOpen: false }); return; }
+      if (e.key === 'Escape') {
+        if (s.asigOpen) { this.setState({ asigOpen: false }); return; }
+        if (s.filterOpen) { this.setState({ filterOpen: false }); return; }
+        if (typing && (s.searchOpen || s.q) && (e.target.id === 'tic-search')) { e.target.blur(); this.setState(st => ({ q: '', searchOpen: false, swap: st.swap + 1, page: Object.assign({}, st.page, { tickets: 0 }) })); return; }
+        if (s.moment) { this.endMoment(true); return; }
+        if (s.modal) { this.closeModal(); return; }
+        if (s.celebrate) { this.goToNew(); return; }
+        if (s.screen === 'entity') { this.closeEntity(); return; }
+        if (s.screen === 'detail' || s.screen === 'create' || s.screen === 'edit') { this.setState({ screen: 'tickets', detailId: null, editId: null, dir: 'back' }); return; }
+        return;
+      }
+      if (typing || !s.authed || s.modal || s.celebrate || s.moment || s.heavyMsg) return;
+      if (e.key === '/') { e.preventDefault(); this.setState({ searchOpen: true }); setTimeout(() => { const el = document.getElementById('tic-search'); if (el) el.focus(); }, 30); return; }
+      if (e.key === 'c' || e.key === 'C') { e.preventDefault(); this.newForm(); return; }
+      if (e.key === 'v' || e.key === 'V') {
+        const order = ['cards', 'table', 'kanban'];
+        this.setState(st => ({ view: order[(order.indexOf(st.view) + 1) % 3], swap: st.swap + 1 }));
+        return;
+      }
+      const ids = this._rowIds || [];
+      if (s.screen === 'tickets' && ids.length) {
+        if (e.key === 'j' || e.key === 'ArrowDown') { e.preventDefault(); this.setState(st => ({ cursor: Math.min(ids.length - 1, st.cursor + 1) })); return; }
+        if (e.key === 'k' || e.key === 'ArrowUp') { e.preventDefault(); this.setState(st => ({ cursor: Math.max(0, (st.cursor < 0 ? 1 : st.cursor) - 1) })); return; }
+        if (e.key === 'Enter' && s.cursor >= 0 && ids[s.cursor]) { e.preventDefault(); this.openTicket(ids[s.cursor]); return; }
+      }
+    };
+    document.addEventListener('keydown', this._keys);
+    this.applyUrl();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._clk);
+    clearTimeout(this._load); clearTimeout(this._busy); clearTimeout(this._t); clearTimeout(this._toast);
+    clearTimeout(this._modal); clearTimeout(this._celeb); clearTimeout(this._heavy); clearTimeout(this._moment); clearTimeout(this._tap); clearTimeout(this._save); clearTimeout(this._sess); clearTimeout(this._land);
+    if (this._keys) document.removeEventListener('keydown', this._keys);
+    if (this._vis) document.removeEventListener('visibilitychange', this._vis);
+    if (this._hash) window.removeEventListener('hashchange', this._hash);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll, true);
+    clearTimeout(this._boot); clearTimeout(this._bootOut);
+    cancelAnimationFrame(this._fillRaf);
+    clearTimeout(this._fabT);
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.estadoError !== this.props.estadoError) {
+      const v = this.props.estadoError || 'ninguno';
+      this.setState({ forced: v, err500: v === '500', err500Line: 'HTTP 500 · GET /api/tickets' });
+    }
+    this.writeUrl();
+  }
+
+  // Arma el objeto V que consume la interfaz (layouts/Interfaz.jsx). Cada sección escribe
+  // sus claves en "v"; el orden importa porque algunas leen lo que dejó una anterior.
+  renderVals() {
+    const s = this.state, me = this.me(), isAdmin = s.role === 'admin';
+    const v = {};
+    const ctx = { s, me, isAdmin };
+    this.valoresLogin(v, ctx);
+    this.valoresApp(v, ctx);
+    this.valoresPulso(v, ctx);
+    this.valoresLista(v, ctx);
+    this.valoresFormulario(v, ctx);
+    this.valoresDetalle(v, ctx);
+    this.valoresCatalogos(v, ctx);
+    this.valoresModal(v, ctx);
+    this.valoresCapas(v, ctx);
+    this.valoresTitulos(v, ctx);
+    this.valoresEntidad(v, ctx);
+    this.valoresChat(v, ctx);
+    return v;
+  }
+}
+
+Object.assign(Logica.prototype,
+  metodosTiempos,
+  metodosInterfaz,
+  metodosSesion,
+  metodosTickets,
+  metodosFormulario,
+  metodosUrl,
+  metodosAdjuntos,
+  metodosChat,
+  metodosPulso,
+  metodosCatalogos,
+  metodosNotificaciones,
+  valoresLogin,
+  valoresApp,
+  valoresPulso,
+  valoresLista,
+  valoresFormulario,
+  valoresDetalle,
+  valoresCatalogos,
+  valoresModal,
+  valoresCapas,
+  valoresTitulos,
+  valoresEntidad,
+  valoresChat
+);

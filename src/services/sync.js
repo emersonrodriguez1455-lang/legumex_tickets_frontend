@@ -1,5 +1,5 @@
 // Puente entre el estado de la interfaz y la API.
-// La lógica (logic.js) sigue trabajando igual que el prototipo: cambia su estado al instante.
+// La lógica (src/logic) sigue trabajando igual que el prototipo: cambia su estado al instante.
 // Este módulo compara el estado anterior con el nuevo y manda al servidor solo lo que cambió.
 // Si el servidor rechaza algo, avisa y vuelve a cargar los datos reales.
 import * as api from './api.js';

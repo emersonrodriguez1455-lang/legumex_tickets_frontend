@@ -8,7 +8,7 @@
     "dev:simulado": "vite --mode simulado",
     "build": "vite build",
     "preview": "vite preview",
-    "datos-prueba": "node scripts/cargar-datos-prueba.mjs"
+    "datos-prueba": "node src/mocks/cargar-datos-prueba.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

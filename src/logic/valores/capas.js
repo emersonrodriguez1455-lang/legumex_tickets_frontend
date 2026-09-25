@@ -1,0 +1,126 @@
+// Valores para la plantilla: Capas globales: celebración, momentos, visor, carga, subida, avisos.
+// Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
+import { RING } from '../../config/constantes.js';
+
+export const valoresCapas = {
+  valoresCapas(v, ctx) {
+    const { s } = ctx;
+    const cel = s.celebrate;
+    v.celebrating = !!cel;
+    v.celebCode = cel ? 'TIC-' + cel.id : '';
+    v.celebTitulo = cel ? cel.titulo : '';
+    v.celebWarn = !!(cel && cel.correoFallo);
+    v.celebSub = cel ? cel.cat + ' · ya está en la bandeja del área. Te llevamos al ticket…' : '';
+    const mo = s.moment;
+    v.momentClose = !!mo && mo.kind === 'close';
+    v.momentNudge = !!mo && mo.kind === 'nudge';
+    v.momentReopen = !!mo && mo.kind === 'reopen';
+    const lb = s.lightbox, lbc = lb ? lb.list[lb.i] : null;
+    v.lbOn = !!lbc; v.lbNombre = lbc ? lbc.nombre : ''; v.lbMeta = lbc ? lbc.meta : ''; v.lbUrl = lbc ? lbc.url : '';
+    v.lbHasUrl = !!(lbc && lbc.url); v.lbNoUrl = !!lbc && !lbc.url; v.lbTipo = lbc ? lbc.tipo : '';
+    v.lbPos = lb ? (lb.i + 1) + ' / ' + lb.list.length : ''; v.lbMulti = !!lb && lb.list.length > 1; v.lbKey = lb ? 'lb' + lb.i : 'lb';
+    const lz = s.lbZ || { z: 1, x: 0, y: 0 };
+    v.lbTransform = 'translate(' + lz.x + 'px,' + lz.y + 'px) scale(' + lz.z + ')';
+    v.lbTrans = s.lbDrag ? 'none' : 'transform 220ms cubic-bezier(0.22,1,0.36,1)';
+    v.lbCursor = s.lbDrag ? 'grabbing' : lz.z > 1 ? 'grab' : 'zoom-in';
+    v.lbZoomLabel = Math.round(lz.z * 100) + '%';
+    v.lbHint = lz.z > 1 ? 'ARRASTRÁ PARA MOVERTE · DOBLE CLICK O 0 PARA AJUSTAR' : 'CLICK O RUEDA PARA ACERCAR · + / −';
+    const rel = (e, el) => { const r = el.getBoundingClientRect(); return [e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2)]; };
+    v.onLbWheel = e => { const fr = e.currentTarget; this._lbFrame = fr; const p = rel(e, fr); this.lbZoomAt(lz.z * (e.deltaY < 0 ? 1.25 : 0.8), p[0], p[1]); };
+    v.onLbIn = () => this.lbZoomAt(lz.z * 1.5, 0, 0);
+    v.onLbOut = () => this.lbZoomAt(lz.z / 1.5, 0, 0);
+    v.onLbFit = () => this.setState({ lbZ: { z: 1, x: 0, y: 0 } });
+    v.onLbDbl = () => this.setState({ lbZ: { z: 1, x: 0, y: 0 } });
+    v.onLbDown = e => { const fr = e.currentTarget.parentElement; this._lbFrame = fr; this._lbP = { sx: e.clientX, sy: e.clientY, x: lz.x, y: lz.y, moved: false, p: rel(e, fr) }; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {} };
+    v.onLbMove = e => {
+      const d = this._lbP; if (!d) return;
+      const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
+      if (!d.moved && Math.abs(dx) + Math.abs(dy) < 5) return;
+      d.moved = true;
+      if ((this.state.lbZ || {}).z > 1) this.setState({ lbDrag: true, lbZ: this.lbClamp({ z: this.state.lbZ.z, x: d.x + dx, y: d.y + dy }) });
+    };
+    v.onLbUp = () => {
+      const d = this._lbP; this._lbP = null;
+      if (this.state.lbDrag) this.setState({ lbDrag: false });
+      if (d && !d.moved && (this.state.lbZ || {}).z === 1) this.lbZoomAt(2.5, d.p[0], d.p[1]);
+    };
+    v.onLbClose = () => this.setState({ lightbox: null }); v.onLbPrev = () => this.lbStep(-1); v.onLbNext = () => this.lbStep(1);
+    v.momentCode = mo ? mo.code : '';
+    v.momentTitulo = mo ? mo.titulo : '';
+    v.momentSub = mo ? mo.sub : '';
+    v.momentBtn = mo ? mo.btn : '';
+    v.momentHasUndo = !!(mo && mo.undo);
+    v.onMomentUndo = () => { const fn = mo && mo.undo; if (fn) fn(); };
+    v.onMomentGo = () => {
+      const go = mo && mo.go;
+      this.endMoment(true);
+      if (go) go();
+    };
+    v.heavyOn = !!s.heavyMsg; v.heavyMsg = s.heavyMsg;
+    const chatVisible = s.chatId && (s.chatOpen || s.screen === 'chat');
+    const upAct = (s.uploads || []).filter(y => !y.failed && !(chatVisible && y.tid === s.chatId));
+    const upP = upAct.length ? upAct.reduce((a, y) => a + (y.pct || 0), 0) / upAct.length : 0;
+    v.upOn = upAct.length > 0 && !s.heavyMsg;
+    v.upPct = Math.max(4, Math.round(upP)) + '%'; v.upPctLabel = Math.round(upP) + '%';
+    v.upLabel = upAct.length === 1 ? 'SUBIENDO ' + String(upAct[0].nombre || '').toUpperCase() : 'SUBIENDO ' + upAct.length + ' IMÁGENES';
+    v.heavyLogoRef = el => {
+      if (this._hFillEl === el) return;
+      this._hFillEl = el;
+      cancelAnimationFrame(this._hFillRaf);
+      if (!el) return;
+      const t0 = performance.now();
+      const step = now => {
+        if (this._hFillEl !== el || !el.isConnected) return;
+        const p = ((now - t0) % 900) / 900;
+        const top = p < 0.55 ? (1 - p / 0.55) * 100 : 0;
+        const bottom = p > 0.85 ? ((p - 0.85) / 0.15) * 100 : 0;
+        el.style.clipPath = 'inset(' + top.toFixed(1) + '% 0 ' + bottom.toFixed(1) + '% 0)';
+        this._hFillRaf = requestAnimationFrame(step);
+      };
+      this._hFillRaf = requestAnimationFrame(step);
+    };
+    v.sparks = [0, 45, 90, 135, 180, 225, 270, 315].map((d, i) => ({
+      deg: d + 'deg', color: RING[i % RING.length], delay: (120 + i * 45) + 'ms', id: i
+    }));
+    v.onCelebNow = () => this.goToNew();
+    v.swapKey = 'swap-' + s.swap + '-' + s.statusFilter + '-' + s.view;
+
+    v.busyForm = s.busy === 'form'; v.busyFormOp = s.busy === 'form' ? '0' : '1';
+    v.busyComment = s.busy === 'comment'; v.busyCommentOp = s.busy === 'comment' ? '0' : '1';
+    v.busyModal = s.busy === 'modal'; v.busyModalOp = s.busy === 'modal' ? '0' : '1';
+
+    v.modalAnim = s.modalClosing
+      ? 'modalOut var(--duration-fast) var(--ease-standard)'
+      : 'modalIn var(--duration-base) var(--ease-standard)';
+    v.overlayAnim = s.modalClosing
+      ? 'overlayOut var(--duration-fast) var(--ease-standard)'
+      : 'overlayIn var(--duration-base) var(--ease-standard)';
+    v.toastAnim = s.toastOut
+      ? 'toastOut var(--duration-fast) var(--ease-standard) both'
+      : 'none';
+
+    // El ciclo de llenado se arranca con la Web Animations API al montar el nodo:
+    // declararlo como 'animation:' en el template lo reiniciaba en cada re-render.
+    // Ni CSS ni WAAPI: en este nodo el reloj de la animación nunca arranca
+    // (currentTime clavado en 0). El llenado se pinta a mano por cuadro.
+    v.saveLogoRef = el => {
+      if (this._fillEl === el) return;
+      this._fillEl = el;
+      cancelAnimationFrame(this._fillRaf);
+      if (!el) return;
+      const t0 = performance.now();
+      const step = now => {
+        if (this._fillEl !== el || !el.isConnected) return;
+        const p = ((now - t0) % 900) / 900;
+        const top = p < 0.55 ? (1 - p / 0.55) * 100 : 0;
+        const bottom = p > 0.85 ? ((p - 0.85) / 0.15) * 100 : 0;
+        el.style.clipPath = 'inset(' + top.toFixed(1) + '% 0 ' + bottom.toFixed(1) + '% 0)';
+        this._fillRaf = requestAnimationFrame(step);
+      };
+      this._fillRaf = requestAnimationFrame(step);
+    };
+    v.hasToast = !!s.toast; v.toast = s.toast;
+    v.hasUndo = !!s.undo;
+    v.onUndo = () => { const fn = s.undo; if (fn) fn(); };
+  }
+};
