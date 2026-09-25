@@ -202,6 +202,13 @@ En modo demostración siguen visibles, como en el prototipo.
   backend agrega `created_at`, se usa automáticamente.
 - El SLA (`config/constantes.js`: Alta 8 h, Media 48 h, Baja 120 h sin movimiento) es un
   umbral del prototipo: la API no lo expone.
+- **Llamar por Teams** (detalle, chat y chat flotante; `llamarTeams` en
+  `logic/metodos/tickets.js`): confirmación → "Abriendo Teams" → pestaña nueva con
+  `https://teams.microsoft.com/l/call/0/0?users=<correo>`; el navegador ofrece abrir la
+  aplicación y Teams llama a esa persona. El correo es el del usuario en el sistema: tiene
+  que ser su cuenta corporativa de Microsoft. "Llamó por Teams a…" se registra en el
+  historial solo al confirmar; si el navegador bloquea la pestaña, se avisa y no se
+  registra.
 
 ## Diseño visual
 

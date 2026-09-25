@@ -39,7 +39,7 @@ export const valoresChat = {
     v.chatCallOn = !!(otro && otro.email && otro.id !== me.id) && !this.othersTicket(ct);
     v.chatCallUrl = otro ? 'https://teams.microsoft.com/l/call/0/0?users=' + otro.email : '';
     v.chatCallLabel = otro ? 'Llamar por Teams a ' + otro.nombre : '';
-    v.onChatCall = () => { if (ct && otro) this.registrarLlamada(ct, otro.nombre); };
+    v.onChatCall = e => this.llamarTeams(e, ct, otro);
     // Dos paneles solo si entran; si no, lista o conversación (la flecha vuelve a la lista)
     const wide = s.chatWide !== false;
     v.chatCols = wide ? 'minmax(260px,340px) minmax(0,1fr)' : 'minmax(0,1fr)';

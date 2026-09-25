@@ -152,6 +152,21 @@ export const metodosTickets = {
     return { texto: 'Aún no lo abren · lo recibieron ' + n + ' personas del área', dot: '#ea580c' };
   },
 
+  // Llamar por Teams: confirma, muestra "Abriendo Teams…" y abre el enlace de llamada al
+  // correo de la persona. Se registra en el historial solo si se confirmó. La pestaña se
+  // abre dentro del segundo del clic en "Llamar" para que el navegador no la bloquee.
+  llamarTeams(e, t, u) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!t || !u || !u.email) return;
+    const url = 'https://teams.microsoft.com/l/call/0/0?users=' + u.email;
+    this.confirmOr('call', { title: '¿Llamar por Teams a ' + u.nombre + '?', sub: 'Se abre Microsoft Teams con la llamada a ' + u.email + '. Si el navegador pregunta, elegí abrir la aplicación.', ok: 'Llamar' }, () => this.heavy('Abriendo Teams', 900, () => {
+      let w = null;
+      try { w = window.open(url, '_blank'); if (w) w.opener = null; } catch (err) {}
+      if (!w) { this.say('El navegador bloqueó la ventana de Teams. Permití ventanas emergentes para este sitio y volvé a intentar.'); return; }
+      this.registrarLlamada(t, u.nombre);
+    }));
+  },
+
   // F1 · la llamada queda como evento propio del historial (POST /api/ticket_histories)
   registrarLlamada(t, nombre) {
     const me = this.me();

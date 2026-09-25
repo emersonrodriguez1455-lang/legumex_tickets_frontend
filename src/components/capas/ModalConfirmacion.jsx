@@ -5,7 +5,9 @@ import { T, S } from '../../utils/runtime.js';
 export default function ModalConfirmacion({ V }) {
   return (
     <>
-      <div style={{ "position": "fixed", "inset": "0", "background": "rgba(10,10,10,0.4)", "display": "flex", "alignItems": "center", "justifyContent": "center", "padding": "24px", "zIndex": "40", "animation": S(V["overlayAnim"]) + " both" }}>
+      {/* z-index 70: por encima del chat flotante (60), que en el teléfono ocupa toda la
+          pantalla y tapaba la confirmación; por debajo de avisos (72) y carga (80). */}
+      <div style={{ "position": "fixed", "inset": "0", "background": "rgba(10,10,10,0.4)", "display": "flex", "alignItems": "center", "justifyContent": "center", "padding": "24px", "zIndex": "70", "animation": S(V["overlayAnim"]) + " both" }}>
         {" "}
         <div style={{ "width": "100%", "maxWidth": "460px", "background": "#ffffff", "borderRadius": "16px", "padding": "24px", "animation": S(V["modalAnim"]) + " both", "boxShadow": "rgba(0,0,0,0.1) 0px 10px 15px -3px, rgba(0,0,0,0.1) 0px 4px 6px -4px" }}>
           {" "}

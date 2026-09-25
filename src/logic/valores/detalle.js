@@ -30,10 +30,10 @@ export const valoresDetalle = {
       const autorU = this.user(det.autor), asigU = this.user(det.asig);
       v.dAutorCall = !!(autorU && autorU.email && autorU.id !== me.id) && !this.othersTicket(det);
       v.dAutorTeams = autorU ? 'https://teams.microsoft.com/l/call/0/0?users=' + autorU.email : '';
-      v.onCallAutor = () => this.registrarLlamada(det, autorU ? autorU.nombre : '');
+      v.onCallAutor = e => this.llamarTeams(e, det, autorU);
       v.dAsigCall = !!(asigU && asigU.email && asigU.id !== me.id);
       v.dAsigTeams = asigU ? 'https://teams.microsoft.com/l/call/0/0?users=' + asigU.email : '';
-      v.onCallAsig = () => this.registrarLlamada(det, asigU ? asigU.nombre : '');
+      v.onCallAsig = e => this.llamarTeams(e, det, asigU);
       v.dSlaTarget = 'Meta para prioridad ' + PR[det.prio].label.toLowerCase() + ': ' + this.dur(dsla.target);
       v.dActivity = this.activity(det);
       v.dActivityCount = String(det.comentarios.length + det.historial.length + det.adjuntos.length);
