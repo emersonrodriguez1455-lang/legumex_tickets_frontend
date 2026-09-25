@@ -55,7 +55,8 @@ export const valoresLogin = {
     v.canUnassign = !api.USE_API;
     v.canToggleUser = !api.USE_API; // los usuarios no tienen campo "activo" en la API // la API no tiene cómo dejar un ticket sin asignar
     v.canSwitchRole = false; // sin "Ver como": cada persona ve el sistema con su propio rol
-    v.onFillDemo = () => this.setState({ email: 'm.sandoval@tic.gob', password: 'demo1234', loginErr: '' });
+    const cred = (this.props.datosDemo || {}).credencial || {}; // src/mocks/datosDemo.js
+    v.onFillDemo = () => this.setState({ email: cred.email || '', password: cred.password || '', loginErr: '' });
     v.tapLogin = this.tapped('login');
     v.onLogin = () => {
       if (s.loginPhase === 'checking' || s.loginPhase === 'ok') return;
