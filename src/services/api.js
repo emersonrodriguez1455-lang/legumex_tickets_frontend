@@ -61,7 +61,7 @@ export const updateUser = (id, u) => request('PUT', '/users/' + id, u); // todos
 // Tickets
 export const listTickets = () => request('GET', '/tickets');
 export const getTicket = id => request('GET', '/tickets/' + id);
-export const createTicket = t => request('POST', '/tickets', t);             // { ticket_number, title, description, category_id }
+export const createTicket = t => request('POST', '/tickets', t);             // { ticket_number, title, description, category_id, priority }
 export const updateTicket = (id, t) => request('PUT', '/tickets/' + id, t);  // user: sin status/priority · admin: con ambos
 export const assignTicket = (id, userId) => request('PATCH', '/tickets/' + id + '/assign', { assigned_to: userId });
 export const closeTicket = id => request('PATCH', '/tickets/' + id + '/closed');

@@ -166,7 +166,9 @@ Copiar `.env.example` a `.env` (el `.env` no se sube al repo):
   recién hecho nunca desaparece y lo de los demás llega enseguida
   (`services/sync.js → refresh`). La recarga forzada (al entrar, o cuando falla un
   guardado) se aplica siempre.
-- Crear ticket: `POST /api/tickets`. Si responde 500 (falló el correo), se vuelve a pedir
+- Crear ticket: `POST /api/tickets` con `ticket_number`, `title`, `description`,
+  `category_id` y `priority` (la elige quien crea: Baja / Media / Alta; confirmado que la
+  API la acepta). El estado entra como Abierto. Si responde 500 (falló el correo), se vuelve a pedir
   la lista y se busca el número antes de dar error.
 - Editar: `PUT /api/tickets/{id}` (admin manda `status` y `priority`; el usuario no).
 - Asignar / tomar / reasignar: `PATCH /api/tickets/{id}/assign`.

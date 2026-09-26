@@ -1,6 +1,6 @@
 // Valores para la plantilla — formulario de ticket (crear / editar).
 // Parte de Logica.renderVals(); "v" se comparte entre secciones y "ctx" lleva lo común.
-import { ST } from '../../config/constantes.js';
+import { ST, PR } from '../../config/constantes.js';
 
 export const valoresFormulario = {
   valoresFormulario(v, ctx) {
@@ -54,6 +54,11 @@ export const valoresFormulario = {
     v.onDropDraft = () => { this.saveDraft('nuevo', ''); this.setState({ draftFound: false, form: { titulo: '', desc: '', cat: '', status: 'open', prio: 'medium' } }); };
     v.onFStatus = e => this.setState(st => ({ form: Object.assign({}, st.form, { status: e.target.value }) }));
     v.onFPrio = e => this.setState(st => ({ form: Object.assign({}, st.form, { prio: e.target.value }) }));
+    // Prioridad al crear: la elige quien reporta; la ayuda dice qué significa cada una
+    const PRIO_AYUDA = { high: 'Frena tu trabajo o el de varias personas.', medium: 'Molesta, pero podés seguir trabajando.', low: 'Puede esperar unos días.' };
+    v.prioOpts = ['low', 'medium', 'high'].map(k => ({ value: k, label: PR[k].label }));
+    v.fPrioDot = (PR[s.form.prio] || PR.medium).dot;
+    v.fPrioHint = PRIO_AYUDA[s.form.prio] || PRIO_AYUDA.medium;
     v.activeCats = s.cats.filter(c => c.activo || (editing && String(c.id) === String(editPrev.cat))).map(c => ({ value: String(c.id), nombre: c.activo ? c.nombre : c.nombre + ' (inactiva)' }));
     const dups = v.formIsCreate ? this.dupes(s.form.titulo) : [];
     v.hasDupes = dups.length > 0;

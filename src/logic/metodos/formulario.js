@@ -114,10 +114,12 @@ export const metodosFormulario = {
     const id = this.nextNumber();
     const me = this.me();
     const desc = this.limpiarAndamio(f.desc);
+    // Prioridad elegida en el formulario (Baja / Media / Alta); Media si no llega una válida
+    const prio = PR[f.prio] ? f.prio : 'medium';
     const nuevo = {
-      id, titulo: f.titulo.trim(), desc, cat: Number(f.cat), status: 'open', prio: 'medium',
+      id, titulo: f.titulo.trim(), desc, cat: Number(f.cat), status: 'open', prio,
       autor: me.id, asig: null, creado: 'hoy', h: 0, comentarios: [],
-      historial: [{ autor: me.nombre, texto: 'Ticket creado · prioridad Media asignada por el sistema', h: 0, at: Date.now(), kind: 'create' }], adjuntos: []
+      historial: [{ autor: me.nombre, texto: 'Ticket creado · prioridad ' + PR[prio].label, h: 0, at: Date.now(), kind: 'create' }], adjuntos: []
     };
     // A2 · POST /api/tickets manda el correo dentro de la misma operación: si el correo falla
     // devuelve 500 con el ticket ya creado. Antes de dar error, se re-pide GET /api/tickets

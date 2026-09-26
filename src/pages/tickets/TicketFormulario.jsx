@@ -261,6 +261,45 @@ export default function TicketFormulario({ V }) {
               {" "}
             </div>
             {" "}
+            {V["formIsCreate"] ? (<>
+              {" "}
+              {/* Prioridad que elige quien crea el ticket (se manda en POST /api/tickets) */}
+              <div style={{ "display": "flex", "flexDirection": "column", "gap": "8px", "width": "320px", "maxWidth": "100%" }}>
+                {" "}
+                <label htmlFor="tic-prio" style={{ "fontSize": "12px", "fontWeight": "600", "color": "#171717" }}>
+                  {"Prioridad"}
+                </label>
+                {" "}
+                <div style={{ "position": "relative" }}>
+                  {" "}
+                  <select id="tic-prio" value={(V["fPrio"] ?? "")} onChange={V["onFPrio"]} style={{ "width": "100%", "background": "#ffffff", "color": "#111827", "border": "1px solid #000000", "borderRadius": "6px", "padding": "10px 34px 10px 28px", "fontSize": "14px", "outline": "none", "appearance": "none", "WebkitAppearance": "none" }}>
+                    {" "}
+                    {L(V["prioOpts"]).map((_p_1, $index) => (
+                      <React.Fragment key={$index}>
+                        <option value={(_p_1?.["value"] ?? "")}>
+                          {T(_p_1?.["label"])}
+                        </option>
+                      </React.Fragment>
+                    ))}
+                    {" "}
+                  </select>
+                  {" "}
+                  <span aria-hidden="true" style={{ "position": "absolute", "left": "12px", "top": "50%", "width": "8px", "height": "8px", "marginTop": "-4px", "borderRadius": "9999px", "background": S(V["fPrioDot"]), "pointerEvents": "none" }}></span>
+                  {" "}
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#525252" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{ "position": "absolute", "right": "11px", "top": "50%", "transform": "translateY(-50%)", "pointerEvents": "none" }}>
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                  {" "}
+                </div>
+                {" "}
+                <span style={{ "fontSize": "12px", "color": "#525252", "lineHeight": "1.4" }}>
+                  {T(V["fPrioHint"])}
+                </span>
+                {" "}
+              </div>
+              {" "}
+            </>) : null}
+            {" "}
           </div>
           {" "}
           {V["formCanManage"] ? (<>
@@ -363,7 +402,7 @@ export default function TicketFormulario({ V }) {
                   <strong style={{ "fontWeight": "500" }}>
                     {"Abierto"}
                   </strong>
-                  {" y la prioridad la asigna el sistema al recibirlo — un admin puede cambiarla después."}
+                  {" con la prioridad que elegiste — un admin puede cambiarla después."}
                 </div>
                 {" "}
               </div>

@@ -171,7 +171,7 @@ function createTicket(nt, logic) {
     let d, num = id;
     try {
       for (let tries = 0; ; tries++) {
-        try { d = await api.createTicket({ ticket_number: num, title: cut(nt.titulo, 255), description: nt.desc, category_id: nt.cat }); break; }
+        try { d = await api.createTicket({ ticket_number: num, title: cut(nt.titulo, 255), description: nt.desc, category_id: nt.cat, priority: nt.prio || 'medium' }); break; }
         catch (e) { if (e.status === 422 && e.body && e.body.errors && e.body.errors.ticket_number && tries < 20) { num++; continue; } throw e; }
       }
     } catch (e) {
