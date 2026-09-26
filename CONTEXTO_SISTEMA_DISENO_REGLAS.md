@@ -228,14 +228,17 @@ En modo demostración siguen visibles, como en el prototipo.
 - Tickets en tres vistas en escritorio: tarjetas, tabla y kanban (arrastrar entre
   columnas). En el teléfono, una sola: tarjetas (ver abajo).
 
-## Diseño responsivo (teléfonos)
+## Diseño responsivo (teléfonos y tablets)
 
 Un solo código para PC y teléfono: **no hay una versión móvil aparte**. En escritorio nada
 cambia (se verificó comparando el DOM contra la versión anterior en recorridos
 automáticos); en el teléfono la misma interfaz se reacomoda.
 
-- **Cuándo aplica**: hasta 767 px de ancho, o pantalla táctil de hasta 500 px de alto
-  (teléfono en horizontal). Una sola definición en dos lugares que deben coincidir:
+- **Cuándo aplica**: hasta 767 px de ancho, pantalla táctil de hasta 500 px de alto
+  (teléfono en horizontal), o **tablet**: pantalla táctil sin cursor (`pointer: coarse`
+  y `hover: none`) de hasta 1366 px, en cualquier orientación. Una laptop con pantalla
+  táctil sigue en escritorio porque su puntero principal es el mouse o el trackpad. Una
+  sola definición en dos lugares que deben coincidir:
   `MQ_MOVIL` en `config/constantes.js` (lógica) y la media query del final de
   `src/index.css` (estilos).
 - **Cómo está hecho**: los estilos del prototipo van en línea, así que el CSS móvil usa
@@ -267,10 +270,21 @@ automáticos); en el teléfono la misma interfaz se reacomoda.
   "Creados en" hasta 1365 px y acorta el buscador a 200 px hasta 1535 px. Las tarjetas
   piden 380px como mínimo (`VistaTarjetas.jsx`) para que el nombre y la categoría no se
   corten: 2 columnas en laptop, 3 en 1920.
-- **Tablets: pendiente.** Hoy usan el diseño de escritorio (el ancho es de escritorio).
-  Antes pasó que en teléfono se veía bien y en tablet como escritorio: tratarlas en una
-  tanda aparte, considerando también la firma en tablet (es más complicada), que se verá
-  junto con el trabajo de las actas.
+- **Tablets** (bloque "Tablets" de `index.css`, solo en pantalla): el mismo diseño que
+  el teléfono (barra superior, menú deslizable, una sola vista en tarjetas, hojas desde
+  abajo) con tamaños de tablet. Revisado en 768×1024, 820×1180 y 1024×1366 en vertical y
+  1024×768, 1180×820 y 1366×1024 en horizontal:
+  - Márgenes de 32 px y contenido centrado hasta 1200 px; títulos de 32 px.
+  - Tarjetas en columnas de 340 px como mínimo: 2 en vertical, 3 en horizontal ancho.
+    El chip de asignación muestra solo las iniciales, como en el teléfono, para que el
+    nombre del autor entre completo.
+  - Hojas (Filtro, Período, Orden, Asignar) centradas, de 560 px como máximo.
+  - Menú de 340 px; notificaciones de 420 px a la derecha, bajo la campana; chat
+    flotante como panel de 520 px a la derecha, a toda la altura.
+  - Categorías y Usuarios vuelven a ser tabla con cabecera (entran desde 704 px).
+  - Métricas: indicadores de a dos en vertical y de a cuatro desde 1000 px; desde 1000 px
+    el detalle del ticket va a dos columnas (actividad + panel).
+  - Pendiente para más adelante: la firma en tablet, junto con el trabajo de las actas.
 
 ## Observaciones del prototipo (no se tocaron; decidir antes de cambiar)
 

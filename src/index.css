@@ -199,8 +199,10 @@
    prototipo van en línea, por eso aquí se usa !important sobre elementos marcados con
    data-m (o con los data-* que ya existían). El comportamiento (menú, vista única en
    tarjetas) lo decide la lógica con s.movil (config/constantes.js → MQ_MOVIL).
-   Tablets (768–1100 px): pendiente, siguen con el diseño de escritorio. */
-@media (max-width:767px), (max-height:500px) and (pointer:coarse){
+   Tablets (pantalla táctil sin cursor, hasta 1366 px, en cualquier orientación) usan
+   este mismo diseño; el bloque "Tablets" de más abajo agranda tamaños y columnas.
+   Una laptop con pantalla táctil sigue en escritorio: su puntero principal es el mouse. */
+@media (max-width:767px), (max-height:500px) and (pointer:coarse), (pointer:coarse) and (hover:none) and (max-width:1366px){
   html,body{overflow-x:hidden}
   /* marco: barra superior + contenido a todo el ancho */
   [data-shell]{flex-direction:column!important;align-items:stretch!important;height:100vh!important;height:100dvh!important}
@@ -209,7 +211,7 @@
      translate(0,0)) encierra a los position:fixed de adentro (hojas, velos, modales) */
   [data-m="pantalla"]{padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px))!important;animation-fill-mode:backwards!important}
   /* barra lateral → menú deslizable */
-  [data-m="menu"]{position:fixed!important;top:0!important;left:0!important;bottom:0!important;height:auto!important;width:min(300px,86vw)!important;z-index:60!important;background:#f4f5f1!important;padding:calc(20px + env(safe-area-inset-top,0px)) 12px calc(20px + env(safe-area-inset-bottom,0px))!important;transform:translateX(-104%);visibility:hidden;transition:transform 280ms cubic-bezier(0.22,1,0.36,1),visibility 0s linear 280ms,box-shadow 280ms;overscroll-behavior:contain}
+  [data-m="menu"]{position:fixed!important;top:0!important;left:0!important;bottom:0!important;height:100vh!important;height:100dvh!important;box-sizing:border-box!important;width:min(300px,86vw)!important;z-index:60!important;background:#f4f5f1!important;padding:calc(20px + env(safe-area-inset-top,0px)) 12px calc(20px + env(safe-area-inset-bottom,0px))!important;transform:translateX(-104%);visibility:hidden;transition:transform 280ms cubic-bezier(0.22,1,0.36,1),visibility 0s linear 280ms,box-shadow 280ms;overscroll-behavior:contain}
   [data-m="menu"][data-abierto]{transform:none;visibility:visible;transition:transform 280ms cubic-bezier(0.22,1,0.36,1),visibility 0s,box-shadow 280ms;box-shadow:0 24px 64px rgba(11,42,30,0.28)}
   [data-m="campana-lateral"]{display:none!important}
   [data-m="barra"] button:active{transform:scale(0.92)}
@@ -260,6 +262,46 @@
 /* teléfono en horizontal: hay ancho para dos columnas de tarjetas */
 @media (max-height:500px) and (pointer:coarse) and (min-width:640px){
   [data-m="grilla-tarjetas"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+/* ──────────── Tablets (táctil, 768–1366 px, alto > 500 px) ────────────
+   Mismo diseño que el teléfono, pero con aire y columnas que crecen con la pantalla. */
+@media screen and (pointer:coarse) and (hover:none) and (min-width:768px) and (max-width:1366px) and (min-height:501px){
+  /* márgenes de tablet y contenido centrado para que las líneas no se estiren de más */
+  [data-m="pantalla"]{padding:24px 32px calc(104px + env(safe-area-inset-bottom,0px))!important;max-width:1200px!important;margin:0 auto!important;width:100%!important;box-sizing:border-box!important}
+  [data-m="encabezado"]{padding:16px 32px 6px!important;gap:14px!important}
+  [data-m="encabezado"] h1{font-size:32px!important}
+  [data-m="barra"]{padding-left:20px!important;padding-right:20px!important}
+  [data-m="controles"]{padding:16px!important}
+  /* tarjetas: 2 columnas en vertical, 3 en horizontal ancho */
+  [data-m="grilla-tarjetas"]{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))!important;gap:16px!important}
+  /* hojas: centradas y con ancho de lectura, no de pared a pared */
+  [data-m="hoja"]{left:0!important;right:0!important;margin:0 auto!important;width:min(560px,100%)!important;padding:24px 24px calc(20px + env(safe-area-inset-bottom,0px))!important}
+  /* menú y notificaciones más anchos; las notificaciones a la derecha, bajo la campana */
+  [data-m="menu"]{width:340px!important;padding-left:16px!important;padding-right:16px!important}
+  [data-m="notificaciones"]{left:auto!important;right:16px!important;width:420px!important;max-height:min(720px,calc(100dvh - 88px))!important}
+  /* chat flotante: panel a la derecha a toda la altura (la lista queda a la vista) */
+  [data-m="chat-flotante"]{left:auto!important;width:min(520px,100%)!important;box-shadow:-16px 0 48px rgba(11,42,30,0.22)!important}
+  /* Métricas: en vertical los indicadores van de a dos, con cifras más grandes que en el
+     teléfono ("menos de 1 h" no entra en un cuarto de 756 px) */
+  [data-m="kpis"]>div>div:first-of-type{font-size:34px!important}
+  /* Categorías y Usuarios: en tablet la tabla de escritorio entra (el contenido mide
+     704 px o más), así que vuelve la tabla con su cabecera en vez de tarjetas estiradas */
+  [data-m="tabla-cabecera"]{display:grid!important;padding:10px 20px!important}
+  [data-m="fila-cat"],[data-m="fila-usuario"]{row-gap:0!important;column-gap:16px!important;padding:14px 20px!important}
+  [data-m="fila-cat"]{grid-template-columns:minmax(0,2fr) 110px 120px 96px!important}
+  [data-m="fila-usuario"]{grid-template-columns:minmax(0,2fr) 132px minmax(140px,180px) 150px!important}
+  [data-m="fila-cat"]>*,[data-m="fila-usuario"]>*{grid-column:auto!important;grid-row:auto!important}
+  [data-m="fila-cat"]>:nth-child(2)::before{content:none}
+  [data-m="fila-cat"]>:nth-child(3){justify-self:start!important}
+  [data-m="fila-usuario"]>:nth-child(2),[data-m="fila-usuario"]>:nth-child(4){justify-self:start!important}
+}
+/* tablet en horizontal (o vertical grande): los cuatro indicadores de Métricas en una fila */
+@media screen and (pointer:coarse) and (hover:none) and (min-width:1000px) and (max-width:1366px) and (min-height:501px){
+  [data-m="kpis"]{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  [data-m="kpis"]>div>div:first-of-type{font-size:clamp(32px,3.2vw,40px)!important}
+  /* detalle: la actividad y el panel lateral lado a lado (en escritorio se apilan bajo
+     1100 px porque la barra lateral fija ocupa 240; en tablet no está) */
+  [data-detail-grid]{grid-template-columns:minmax(0,1.7fr) minmax(260px,320px)!important}
 }
 @keyframes hojaSube{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @media (prefers-reduced-motion:reduce){
