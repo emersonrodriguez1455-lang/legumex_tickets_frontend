@@ -101,7 +101,7 @@ export const valoresDetalle = {
       v.tapReopen = this.tapped('reopen', 'iconSpinTap', 620);
       v.onReopen = () => this.tap('reopen', () => this.confirmOr('reopen', { title: '¿Reabrir TIC-' + det.id + '?', sub: 'Vuelve a Abierto y reaparece en la bandeja. El solicitante recibe el aviso.', ok: 'Reabrir' }, () => this.heavy('Reabriendo el ticket', 900, () => { this.reopen(det); this.reapertura(det.id); })));
       v.canAssign = isAdmin && det.status !== 'closed';
-      v.canUpload = det.status !== 'closed' && !this.replyLock(det) && (isAdmin || det.autor === me.id || det.asig === me.id);
+      v.canUpload = this.puedeAdjuntar(det);
       v.tapUpload = this.tapped('upload', 'iconDrop', 520);
       v.onUpload = () => {
         this.tap('upload');
@@ -109,12 +109,13 @@ export const valoresDetalle = {
         if (el) el.click();
       };
       v.onFileChange = e => { this.pickFiles(e.target.files); e.target.value = ''; };
-      v.uploads = s.uploads.map(u => ({
+      const upsDet = s.uploads.filter(u => !u.tid || u.tid === det.id);
+      v.uploads = upsDet.map(u => ({
         id: u.id, nombre: u.nombre, peso: u.peso, failed: u.failed, ok: !u.failed, msg: u.msg,
         pct: Math.round(u.pct) + '%', pctLabel: Math.round(u.pct) + '%', rest: (100 - Math.round(u.pct)) + '%',
         dismiss: () => this.setState(st => ({ uploads: st.uploads.filter(x => x.id !== u.id) }))
       }));
-      v.hasUploads = s.uploads.length > 0;
+      v.hasUploads = upsDet.length > 0;
     const stg = s.staged.filter(x => x.tid === s.detailId);
     const stgLb = stg.map(y => ({ url: y.url, nombre: y.nombre, tipo: 'IMG', meta: 'SIN ENVIAR · ' + y.peso }));
     v.staged = stg.map((x, i) => ({ nombre: x.nombre, peso: x.peso, url: x.url,
@@ -126,7 +127,8 @@ export const valoresDetalle = {
     v.tapStage = this.tapped('stage');
     v.onSendStaged = () => this.tap('stage', () => this.sendStaged());
     v.onDropStaged = () => this.setState(st => ({ staged: st.staged.filter(y => y.tid !== s.detailId) }));
-      v.uploadRule = 'JPG, PNG o WEBP, hasta 5 MB — se revisa antes de subir';
+      // en computadora también se puede arrastrar la imagen desde la carpeta: se sube al soltarla
+      v.uploadRule = s.movil ? 'JPG, PNG o WEBP, hasta 5 MB — se revisa antes de subir' : 'JPG, PNG o WEBP, hasta 5 MB — o arrastrala acá y se sube sola';
       v.canClose = det.status !== 'closed' && det.asig === me.id;
       v.canEdit = (isAdmin && !this.othersTicket(det)) || (!isAdmin && det.autor === me.id && det.status !== 'closed');
       const act = this.visible().filter(t => t.status !== 'closed');

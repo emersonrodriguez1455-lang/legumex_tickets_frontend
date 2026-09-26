@@ -176,6 +176,14 @@ Copiar `.env.example` a `.env` (el `.env` no se sube al repo):
 - Comentarios y chat: `POST /api/ticket_comments`.
 - Historial (asignaciones, "bloqueante", ediciones): `POST /api/ticket_histories`.
 - Adjuntos: `POST /api/ticket_attachments` (JPG, PNG o WEBP, máx. 5 MB).
+  - Con el botón "Subir imagen" (o el clip del chat) la imagen queda en vista previa y
+    viaja al confirmar. **Arrastrar y soltar** (detalle, pantalla de Chat y chat flotante)
+    la sube al instante al ticket que está a la vista (`logic/metodos/adjuntos.js →
+    escucharArrastre / soltarArchivos`, capa `components/capas/ZonaSoltar.jsx`). Lo que
+    no es imagen o pesa más de 5 MB no se sube y queda marcado con el motivo. En un
+    ticket ajeno o cerrado la capa lo avisa y no sube nada (misma regla que el botón:
+    `puedeAdjuntar`). Soltar un archivo fuera de un ticket ya no abre el archivo en el
+    navegador.
 - Categorías: `POST` y `PUT /api/ticket_categories`.
 - Usuarios: `POST` y `PUT /api/users`. Ambos piden contraseña (mín. 8): al editar, la que
   se escriba pasa a ser la de esa persona. No se guarda en el navegador.

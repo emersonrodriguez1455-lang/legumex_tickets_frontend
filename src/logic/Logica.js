@@ -49,7 +49,7 @@ export class Logica extends LogicaBase {
     loading: true, swap: 0, busy: '', modalClosing: false, toastOut: false,
     heavyMsg: '', moment: null, qa: null, staged: [], lightbox: null, viewOpen: false, periodOpen: false, period: '30',
     uploads: [], saving: '', err500Line: 'HTTP 500 · GET /api/tickets', draftFound: false, sessionOk: true, sessionMsg: '',
-    dragId: null, dragOver: null, landed: null, asigOpen: false,
+    dragId: null, dragOver: null, landed: null, asigOpen: false, arrastre: false,
     // Diseño móvil: se calcula al arrancar para no pintar primero el de escritorio
     movil: typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia(MQ_MOVIL).matches,
     menuMovil: false,
@@ -76,6 +76,7 @@ export class Logica extends LogicaBase {
     };
     window.addEventListener('scroll', this._onScroll, true);
     this.escucharMovil();
+    this.escucharArrastre();
     this.load(650);
     this._vis = () => {
       if (document.visibilityState !== 'visible' || !this.state.authed) return;
@@ -134,6 +135,7 @@ export class Logica extends LogicaBase {
     if (this._hash) window.removeEventListener('hashchange', this._hash);
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll, true);
     if (this._mqMovil) this._mqMovil.removeEventListener('change', this._onMq);
+    this.dejarDeEscucharArrastre();
     clearTimeout(this._boot); clearTimeout(this._bootOut);
     cancelAnimationFrame(this._fillRaf);
     clearTimeout(this._fabT);

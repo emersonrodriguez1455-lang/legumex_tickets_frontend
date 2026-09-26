@@ -304,6 +304,9 @@
   [data-detail-grid]{grid-template-columns:minmax(0,1.7fr) minmax(260px,320px)!important}
 }
 @keyframes hojaSube{from{transform:translateY(100%)}to{transform:translateY(0)}}
+/* capa de arrastrar y soltar: el ícono flota suave mientras el archivo está encima */
+@keyframes soltarFlota{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){[data-m="zona-soltar"] *{animation:none!important}}
 @media (prefers-reduced-motion:reduce){
   [data-m="menu"],[data-m="menu"][data-abierto]{transition:none!important}
   [data-m="hoja"],[data-m="chat-flotante"],[data-m="notificaciones"],[data-m="velo-hoja"]{animation:none!important}

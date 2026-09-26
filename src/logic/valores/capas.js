@@ -119,8 +119,22 @@ export const valoresCapas = {
       };
       this._fillRaf = requestAnimationFrame(step);
     };
-    v.hasToast = !!s.toast; v.toast = s.toast;
+    v.hasToast = !!s.toast; v.toast = s.toast; v.toastAviso = !!s.toastAviso; v.toastOk = !s.toastAviso;
     v.hasUndo = !!s.undo;
     v.onUndo = () => { const fn = s.undo; if (fn) fn(); };
+    // Arrastrar y soltar: qué dice la capa según dónde caería el archivo
+    v.arrastreOn = !!(s.arrastre && s.authed);
+    if (v.arrastreOn) {
+      const at = this.ticket(this.destinoArrastre());
+      const puede = this.puedeAdjuntar(at), lk = at && !puede ? this.replyLock(at) : null;
+      v.arrastreOk = puede; v.arrastreNo = !puede;
+      v.arrastreTitulo = puede ? 'Soltá para adjuntar a TIC-' + at.id
+        : !at ? (s.chatOpen || s.screen === 'chat' ? 'Abrí una conversación para adjuntar' : 'Abrí un ticket para adjuntar')
+        : 'En este ticket no podés adjuntar';
+      v.arrastreSub = puede ? 'JPG, PNG o WEBP · hasta 5 MB · se sube al soltar'
+        : !at ? 'Las imágenes se adjuntan al ticket o a la conversación que tengas abierta.'
+        : (lk ? lk.msg : 'Está cerrado.');
+      v.arrastreTituloTicket = puede ? at.titulo : '';
+    }
   }
 };

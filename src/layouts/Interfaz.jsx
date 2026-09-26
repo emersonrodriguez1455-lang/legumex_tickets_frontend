@@ -11,6 +11,7 @@ import MomentoBloqueante from '../components/capas/MomentoBloqueante.jsx';
 import CargaPesada from '../components/capas/CargaPesada.jsx';
 import IndicadorGuardando from '../components/capas/IndicadorGuardando.jsx';
 import Toast from '../components/capas/Toast.jsx';
+import ZonaSoltar from '../components/capas/ZonaSoltar.jsx';
 import PantallaArranque from '../components/capas/PantallaArranque.jsx';
 import BotonChat from '../components/chat/BotonChat.jsx';
 import ChatFlotante from '../components/chat/ChatFlotante.jsx';
@@ -29,6 +30,7 @@ export function renderInterfaz(V) {
       {V["heavyOn"] ? (<CargaPesada V={V} />) : null}
       {V["saving"] ? (<IndicadorGuardando V={V} />) : null}
       {V["hasToast"] ? (<Toast V={V} />) : null}
+      {V["arrastreOn"] ? (<ZonaSoltar V={V} />) : null}
       {V["booting"] ? (<PantallaArranque V={V} />) : null}
       {V["chatFabOn"] ? (<BotonChat V={V} />) : null}
       {V["chatOpen"] ? (<ChatFlotante V={V} />) : null}

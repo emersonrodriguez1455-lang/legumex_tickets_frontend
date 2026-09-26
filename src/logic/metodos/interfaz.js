@@ -118,13 +118,14 @@ export const metodosInterfaz = {
 
   ini(n) { return (n || '').split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); },
 
-  say(msg, undo) {
+  // aviso = true: es una advertencia (ícono de alerta y un poco más de tiempo para leerla)
+  say(msg, undo, aviso) {
     clearTimeout(this._t); clearTimeout(this._toast);
-    this.setState({ toast: msg, toastOut: false, undo: api.USE_API ? null : (undo || null) });
+    this.setState({ toast: msg, toastOut: false, toastAviso: !!aviso, undo: api.USE_API ? null : (undo || null) });
     this._t = setTimeout(() => {
       this.setState({ toastOut: true });
       this._toast = setTimeout(() => this.setState({ toast: '', toastOut: false, undo: null }), 150);
-    }, 2800);
+    }, aviso ? 4500 : 2800);
   },
 
   // ── Resaltado de coincidencias: la búsqueda muestra por qué algo salió
