@@ -8,6 +8,14 @@ Sistema interno para que el personal de Agroindustria Legumex reporte fallas té
 
 ![Lista de tickets](docs/lista-tickets.png)
 
+## Video
+
+Recorrido de poco más de un minuto por las funciones principales (inicio de sesión, bandeja, kanban, creación de tickets, chat y vista en el teléfono), con datos de demostración.
+
+[![Ver el video del recorrido](docs/video/tickets-tic-recorrido.jpg)](docs/video/tickets-tic-recorrido.mp4)
+
+▶️ [Ver el video (MP4)](docs/video/tickets-tic-recorrido.mp4)
+
 ## Qué problema resuelve
 
 Tickets TIC es un canal interno para reportar fallas técnicas: cada persona abre un ticket, el equipo de TIC lo toma, conversa con quien lo reportó y lo cierra cuando queda resuelto. Así queda a la vista qué está pendiente, quién lo atiende y cuánto tarda.
